@@ -22,12 +22,38 @@ angular.module('clientApp')
 
           // TODO: return Array of images from server side
           // instead of String
-          if (records instanceof Array) {
+          if (angular.isArray(records)) {
             records.map(function(record) {
-              record.images = JSON.parse(record.images);
+              if (record.images && record.images !== '') {
+                record.images = JSON.parse(record.images);
+              }
               return record;
             });
             return records;
+          } else {
+            return records;
+          }
+        }
+      },
+
+      get: {
+        method: 'GET',
+        transformResponse: function(data) {
+          var record = angular.fromJson(data);
+
+          if (!record) {
+            return {};
+          }
+
+          // TODO: return Array of images from server side
+          // instead of String
+          if (angular.isObject(record)) {
+            if (record.images && record.images !== '') {
+              record.images = JSON.parse(record.images);
+            }
+            return record;
+          } else {
+            return record;
           }
         }
       }

@@ -14,10 +14,17 @@ angular.module('clientApp')
   .state('restaurant-detail', {
     url: '/restaurant/:id',
     templateUrl: 'views/restaurant-detail.html',
-    controller: 'RestaurantDetailCtrl as ctrl'
+    controller: 'RestaurantDetailCtrl as ctrl',
+    resolve: {
+      venue: function($stateParams, Venue) {
+        return Venue.get({id: $stateParams.id});
+      }
+    }
   });
 
 })
-.controller('RestaurantDetailCtrl', function () {
-  this.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+.controller('RestaurantDetailCtrl', function (venue) {
+  this.map = { zoom: 15 };
+
+  this.venue = venue;
 });
