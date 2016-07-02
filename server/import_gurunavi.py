@@ -25,11 +25,21 @@ def load_venues(input_filename):
 def json_to_venue(item):
 
     venue = Venue()
+
     venue.name = item['name']['name']
+    venue.name_jp = item['name']['name_sub']
+
     venue.gurunavi_id = item['id']
     venue.gurunavi_url = item['url']
     venue.longitude = item['location']['longitude']
     venue.latitude = item['location']['latitude']
+    venue.budget = item['budget']
+
+    venue.address = item['contacts']['address']
+    venue.phone = item['contacts']['phone']
+    venue.description = item['contacts']['sales_points']
+
+    venue.opening_times = item['business_hour']
 
     return venue
 
