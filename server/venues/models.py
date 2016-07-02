@@ -20,6 +20,6 @@ class Venue(models.Model):
         ordering = ('gurunavi_id', )
 
 
-# class Category(models.Model):
-#     name = models.CharField(max_length=100, blank=True, default='')
-#     categories = models.ManyToManyField(Venue)
+class Category(models.Model):
+    name = models.CharField(max_length=100, blank=True, default='')
+    categories = models.ManyToManyField(Venue)

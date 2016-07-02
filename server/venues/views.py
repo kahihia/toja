@@ -3,8 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
-from venues.models import Venue
-from venues.serializers import VenueSerializer
+from venues.models import Venue, Category
+from venues.serializers import VenueSerializer, CategorySerializer
 
 
 class JSONResponse(HttpResponse):
@@ -20,7 +20,7 @@ class JSONResponse(HttpResponse):
 @csrf_exempt
 def venue_list(request):
     """
-    List all code snippets, or create a new snippet.
+    List all venues.
     """
     if request.method == 'GET':
         snippets = Venue.objects.all()
@@ -41,15 +41,15 @@ def venue_list(request):
 @csrf_exempt
 def venue_detail(request, pk):
     """
-    Retrieve, update or delete a code snippet.
+    Retrieve individual venue.
     """
     try:
-        snippet = Venue.objects.get(pk=pk)
+        venue = Venue.objects.get(pk=pk)
     except Venue.DoesNotExist:
         return HttpResponse(status=404)
 
     if request.method == 'GET':
-        serializer = VenueSerializer(snippet)
+        serializer = VenueSerializer(venue)
         return JSONResponse(serializer.data)
 
     return JSONResponse(status=403)
@@ -98,3 +98,34 @@ def venue_nearby(request, lat, lon):
     serializer = VenueSerializer(venues, many=True)
     response = JSONResponse(serializer.data)
     return response
+
+@csrf_exempt
+def category_list(request):
+    """
+    List all categories.
+    """
+    if request.method == 'GET':
+        snippets = Category.objects.all()
+        serializer = CategorySerializer(snippets, many=True)
+        return JSONResponse(serializer.data)
+
+    return JSONResponse(status=403)
+
+
+@csrf_exempt
+def category_venues(request, pk):
+    """
+    Retrieve venues catering to requested category.
+    """
+    try:
+        category = Venue.objects.get(pk=pk)
+    except Venue.DoesNotExist:
+        return HttpResponse(status=404)
+
+
+
+    if request.method == 'GET':
+        serializer = VenueSerializer(snippet)
+        return JSONResponse(serializer.data)
+
+    return JSONResponse(status=403)
