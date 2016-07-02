@@ -5,6 +5,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=100, blank=True, default='')
+    image = models.TextField(default='')
 
 
 class Venue(models.Model):

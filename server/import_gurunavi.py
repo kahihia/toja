@@ -7,6 +7,7 @@ import django
 django.setup()
 
 from venues.models import Venue, Category
+from import_gurunavi_images import import_images
 
 
 def load_venues(input_filename):
@@ -34,8 +35,6 @@ def assign_value(object_from, object_to, property, keylist):
 def json_to_venue(item):
 
     venue = Venue()
-    venue.images = '["https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg",'\
-        + '"https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg"]'
 
     value_mapping = {
         'name': ['name', 'name'],
@@ -101,7 +100,7 @@ if __name__ == '__main__':
 
         # Drop all categories.
         all_categories = Category.objects.all()
-        print('Deleting ' + str(len(all_categories)) + 'categories.')
+        print('Deleting ' + str(len(all_categories)) + ' categories.')
         all_categories.delete()
         print('Now have ' + str(len(Category.objects.all())) + ' categories.')
 
@@ -113,17 +112,26 @@ if __name__ == '__main__':
 
     ids = {}
 
+    i = 1
     for item in objects:
+
+        print(str(i) + ' ' + item['id'])
+        i += 1
+
         venue = json_to_venue(item)
 
         if venue.gurunavi_id in ids:
             ids[venue.gurunavi_id] += 1
-        else:
-            ids[venue.gurunavi_id] = 1
-            venue.save()
+            continue
 
-            add_categories(venue, item)
+        ids[venue.gurunavi_id] = 1
 
-    print(len(ids))
+        # Scrape images from Gurunavi site.
+        venue.images = import_images(venue.gurunavi_id)
+        venue.save()
+
+        add_categories(venue, item)
 
     print('Now have ' + str(len(Venue.objects.all())) + ' venues.')
+    print('Now have ' + str(len(Category.objects.all())) + ' categories.')
+
