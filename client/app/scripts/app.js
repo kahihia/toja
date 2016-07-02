@@ -37,7 +37,7 @@ angular
     libraries: 'weather,geometry,visualization'
   });
 })
-.run(function($rootScope, $window, $state, $timeout) {
+.run(function($rootScope, $window, $state, $timeout, $document) {
   $rootScope.navigateBack = function() {
     $window.history.back();
   };
@@ -68,6 +68,17 @@ angular
         $rootScope.hideBusy();
       });
     }
+  });
+
+  // Scroll to top after changing state
+  function scrollToTop() {
+    $timeout(function() {
+      $document[0].scrollTop =  0;
+    });
+  }
+
+  $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    scrollToTop();
   });
 });
 /* jshint ignore:end */
