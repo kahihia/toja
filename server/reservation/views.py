@@ -33,7 +33,7 @@ def XML_generate(pk):
           '<Response> ' \
           '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="{0}"> ' \
           '<Say language="en-US"> Hi, this is an automated call from Toja. We want to reserve a table for {1} ' \
-          'people at {2} {3}. The reservation is under the name of {4}.' \
+          'people at {2} {3}. The reservation is under the name of {4}... Again, the name is {4}...' \
           'Please press one to accept the reservation, press zero to decline! ' \
           'Or press 5 to listen to the message again.' \
           '</Say> ' \
