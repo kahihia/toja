@@ -90,3 +90,6 @@ ENV/
 
 secrets.py
 .idea/
+*.iml
+migrations/
+*.sqlite3
