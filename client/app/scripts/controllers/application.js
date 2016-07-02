@@ -8,6 +8,6 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ApplicationCtrl', function ($state) {
-    this.$state = $state;
-  });
+.controller('ApplicationCtrl', function ($state) {
+  this.$state = $state;
+});

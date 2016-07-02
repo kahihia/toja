@@ -1,0 +1,30 @@
+<md-content layout-padding id="reserve">
+  <p><b>Reserve for:</b> Robot Cafe<br>
+  <b>Address:</b> 1-7-1 Kabukicho, Shinjuku, Tokyo</p>
+
+  <div layout="column">
+    <md-input-container>
+      <label>Name</label>
+      <input ng-model="ctrl.reservation.name">
+    </md-input-container>
+
+    <md-input-container>
+      <label>Number of Guest</label>
+      <input ng-model="ctrl.reservation.guestNumber">
+    </md-input-container>
+
+    <md-input-container>
+      <label>Date</label>
+      <input ng-model="ctrl.reservation.date">
+    </md-input-container>
+
+    <md-input-container>
+      <label>Time</label>
+      <input ng-model="ctrl.reservation.time">
+    </md-input-container>
+
+    <md-input-container layout="row">
+      <md-button flex class="md-raised md-primary">Reserve</md-button>
+    </md-input-container>
+  </div>
+</md-content>
