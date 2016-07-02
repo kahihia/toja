@@ -10,7 +10,7 @@ class XMLResponse(HttpResponse):
 
 def reservation(request):
 
-    if request.method == "POST":
+    if request.method == "GET" or request.method == "POST":
         xml = '<Response> ' \
                 '<Gather timeout="20" finishOnKey="*" method="GET" action="http://47.88.212.198:8000/gather/"> ' \
                     '<Say language="en-US"> Hi, this is an automated call from Toja. We want to reserve a table for two people at 7PM today. ' \
