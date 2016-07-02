@@ -117,5 +117,5 @@ def twilio_call(request):
     except TwilioRestException as e:
         print(e)
 
-    print(call.account_sid)
+    #print(call.account_sid)
     return HttpResponse("We are making the reservation call for you.")
