@@ -1,9 +1,26 @@
+
+import csv
+import json
+import googlemaps
+
 import django
 django.setup()
 
 from places.models import Area, Attraction
+from server.secrets import GMAPS_KEY
 
-import csv
+
+def address_to_latlong(address):
+    gmaps = googlemaps.Client(key=GMAPS_KEY)
+    geocode_result = gmaps.geocode(address)
+
+    if geocode_result:
+        json_string = json.loads(json.dumps(geocode_result[0]))
+        lat = json_string['geometry']['location']['lat']
+        lng = json_string['geometry']['location']['lng']
+        return True, lat, lng
+
+    return False, None, None
 
 
 def delete_old():
@@ -27,6 +44,12 @@ def add_attraction(line, current_area):
     attraction.name = line[0]
     attraction.address = line[1]
     attraction.address_jp = line[2]
+
+    if len(attraction.address) > 10:
+        success, la, lo = address_to_latlong(attraction.address)
+        if success:
+            attraction.latitude, attraction.longitude = la, lo
+            attraction.has_location = True
 
     images = []
 

@@ -11,4 +11,5 @@ class AreaSerializer(serializers.ModelSerializer):
 class AttractionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attraction
-        fields = ('id', 'name', 'address', 'address_jp', 'description', 'images', 'area')
+        fields = ('id', 'name', 'address', 'address_jp', 'description', 'images', 'area',
+                  'has_location', 'latitude', 'longitude')
