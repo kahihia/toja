@@ -1,0 +1,4 @@
+chmod +x ./migrate
+./migrate
+python gurunavi_api.py -d
+DJANGO_SETTINGS_MODULE=server.settings python import_gurunavi.py -d
