@@ -12,6 +12,7 @@ class Call(models.Model):
     date = models.CharField(max_length=100, blank=True, default='')
     time = models.CharField(max_length=100, blank=True, default='')
     res_num = models.CharField(max_length=13, blank=False, default='')
+    language_opt = models.IntegerField
 
     READY = 911
     ON_CALLING = 5
@@ -27,7 +28,20 @@ class Call(models.Model):
         (READY, 'We are ready to make the call.')
     )
 
+    ENGLISH = 0
+    JAPANESE = 1
+
+    LANGUAGE_CHOICE = (
+        (ENGLISH, 'English'),
+        (JAPANESE, 'Japanse')
+    )
+
     status = models.IntegerField(
         choices=STATUS_CHOICES,
-        default=READY,
+        default=READY
+    )
+
+    language_opt = models.IntegerField(
+        choices=LANGUAGE_CHOICE,
+        default=ENGLISH
     )
