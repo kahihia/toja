@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 from django.http import HttpResponse
@@ -8,6 +9,7 @@ class XMLResponse(HttpResponse):
         kwargs['content_type'] = 'application/xhtml+xml'
         super(XMLResponse, self).__init__(data, **kwargs)
 
+@csrf_exempt
 def reservation(request):
 
     if request.method == "GET" or request.method == "POST":
