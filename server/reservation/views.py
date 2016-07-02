@@ -66,3 +66,22 @@ def gather(request):
     response = XMLResponse(xml)
 
     return response
+
+def twilio_call(request):
+    from twilio import TwilioRestException
+    from twilio.rest import TwilioRestClient
+
+    account_sid = "AC9fd29fc278859337de38574c25843043"  # Your Account SID from www.twilio.com/console
+    auth_token = "22388542078a89a05e264409a2ef0055"  # Your Auth Token from www.twilio.com/console
+
+    client = TwilioRestClient(account_sid, auth_token)
+
+    try:
+        call = client.calls.create(url="http://toja.larvafun.com/api/twilio/reservation",
+                                   to="+819071931989",
+                                   from_="+81345304650")
+    except TwilioRestException as e:
+        print(e)
+
+    print(call.account_sid)
+
