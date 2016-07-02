@@ -6,18 +6,17 @@ from django.http import HttpResponse
 
 class XMLResponse(HttpResponse):
     def __init__(self, data, **kwargs):
-        kwargs['content_type'] = 'application/xhtml+xml'
+        kwargs['content_type'] = 'text/xml; charset=utf-8'
         super(XMLResponse, self).__init__(data, **kwargs)
 
 @csrf_exempt
 def reservation(request):
 
-    if request.method == "GET" or request.method == "POST":
+    if request.method == "POST":
         xml = '<Response> ' \
-                '<Gather timeout="20" finishOnKey="*" method="GET" action="http://47.88.212.198:8000/gather/"> ' \
+                '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="http://47.88.212.198:8000/gather/"> ' \
                     '<Say language="en-US"> Hi, this is an automated call from Toja. We want to reserve a table for two people at 7PM today. ' \
                                             'Please press one to accept the reservation, press zero to decline! Or press 5 to listen to the message again. ' \
-                                            'Please finish with the star key. ' \
                     '</Say> ' \
                 '</Gather> ' \
                 '<Say>We did not receive any input. Goodbye!</Say> ' \
@@ -26,7 +25,7 @@ def reservation(request):
         response = XMLResponse(xml)
         return response
 
-    return HttpResponse(status=400)
+    return HttpResponse("Reservation info will only be shown by POST request.")
 
 def gather(request):
 
@@ -46,10 +45,9 @@ def gather(request):
 
     elif digit == '5':
         xml = '<Response> ' \
-              '<Gather timeout="20" finishOnKey="*" method="GET" action="http://47.88.212.198:8000/gather/"> ' \
+              '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="http://47.88.212.198:8000/gather/"> ' \
               '<Say language="en-US"> Hi, this is an automated call from Toja. We want to reserve a table for two people at 7PM today. ' \
               'Please press one to accept the reservation, press zero to decline! Or press 5 to listen to the message again. ' \
-              'Please finish with the star key. ' \
               '</Say> ' \
               '</Gather> ' \
               '<Say>We did not receive any input. Goodbye!</Say> ' \
@@ -57,7 +55,7 @@ def gather(request):
 
     else:
         xml = '<Response> ' \
-              '<Gather timeout="20" finishOnKey="*" method="GET" action="http://47.88.212.198:8000/gather/"> ' \
+              '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="http://47.88.212.198:8000/gather/"> ' \
               '<Say language="en-US"> Sorry. You chose the wrong number! Please choose again. Number one to accept the reservation. ' \
               'Zero to decline the reservation. Or number 5 to listen to the reservation information again.' \
               '</Say> ' \
@@ -86,4 +84,4 @@ def twilio_call(request):
         print(e)
 
     print(call.account_sid)
-
+    return HttpResponse("We are making the reservation call for you.")
