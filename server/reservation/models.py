@@ -3,15 +3,13 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-# Create your models here.
 class Call(models.Model):
     name = models.CharField(max_length=100, blank=True, default='')
     num_people = models.CharField(max_length=3, blank=False, default='')
-    # date = models.DateField()
-    # time = models.TimeField()
+    datetime = models.DateTimeField()
     date = models.CharField(max_length=100, blank=True, default='')
     time = models.CharField(max_length=100, blank=True, default='')
-    res_num = models.CharField(max_length=13, blank=False, default='')
+    res_num = models.CharField(max_length=100, blank=False, default='')
 
     READY = 911
     ON_CALLING = 5

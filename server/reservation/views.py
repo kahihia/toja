@@ -1,5 +1,8 @@
 # coding=utf-8
 
+import pytz
+import datetime
+
 from twilio import TwilioRestException
 from twilio.rest import TwilioRestClient
 
@@ -50,6 +53,15 @@ def xml_generate(pk):
     date = call_info.date
     name = call_info.name
     language = call_info.language_opt
+
+    # Using datetime field.
+    # How does the Japanese deal with the date formatting?
+
+    dt = call_info.datetime
+    month = dt.strftime('%m').lstrip('0')
+    day = dt.strftime('%d').lstrip('0')
+    hour = dt.strftime('%d').lstrip('0')
+    minute = dt.strftime('%d').lstrip('0')
 
     if language == Call.JAPANESE:
         if num_people == 1:
@@ -126,7 +138,7 @@ def xml_generate_sorry(pk):
 @csrf_exempt
 def reservation(request, pk):
     xml = xml_generate(pk=pk)
-    if request.method == "POST":
+    if request.method == "GET":
         call_info = Call.objects.get(pk=pk)
         call_info.status = Call.ON_CALLING
         call_info.save()
@@ -177,12 +189,23 @@ def twilio_call(request):
     # res_num = request.GET.get('ResNum')
     res_num = "+819071931989"
 
+    timestamp = request.POST.get('datetime')
+    jptz = pytz.timezone('Asia/Tokyo')
+    dt = datetime.datetime.fromtimestamp(timestamp, tz=jptz)
+
     if request.GET.get('lang') == "ja":
         language = Call.JAPANESE
     else:
         language = Call.ENGLISH
 
-    call_info = Call(name=name, num_people=num_people, date=date, time=time, res_num=res_num, language_opt=language)
+    call_info = Call()
+    call_info.name = name
+    call_info.num_people = num_people
+    call_info.date = date
+    call_info.time = time
+    call_info.res_num = res_num
+    call_info.language_opt = language
+    call_info.datetime = dt
     call_info.save()
 
     # After save, I have this id.
@@ -204,8 +227,6 @@ def twilio_call(request):
 
 @csrf_exempt
 def call_detail(request, pk):
-
-    print('got request')
 
     if request.method != 'GET':
         print(request.method)
