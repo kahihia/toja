@@ -11,6 +11,9 @@ angular.module('clientApp')
     return {
       templateUrl: 'views/directives/listing-item.html',
       restrict: 'E',
+      scope: {
+        item: '=?'
+      },
       link: function postLink() {
       }
     };

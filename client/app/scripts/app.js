@@ -1,3 +1,4 @@
+/* jshint ignore:start */
 'use strict';
 
 /**
@@ -24,6 +25,8 @@ angular
   'uiGmapgoogle-maps',
   'ngMaterialDatePicker'
 ])
+.constant('API_END_POINT', 'http://10.201.120.53:8000')
+
 .config(function ($urlRouterProvider, uiGmapGoogleMapApiProvider) {
   $urlRouterProvider.otherwise('/');
 
@@ -33,7 +36,7 @@ angular
     libraries: 'weather,geometry,visualization'
   });
 })
-.run(function($rootScope, $window, $state) {
+.run(function($rootScope, $window, $state, $timeout) {
   $rootScope.navigateBack = function() {
     $window.history.back();
   };
@@ -41,4 +44,29 @@ angular
   $rootScope.navigateTo = function(state, params) {
     $state.go(state, params);
   };
+
+  $rootScope.showBusy = function() {
+    console.debug('Showing busy');
+    $rootScope.isLoading = true;
+  };
+
+  $rootScope.hideBusy = function() {
+    console.debug('Hiding busy');
+    $rootScope.isLoading = false;
+  };
+
+  $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+    if (toState.resolve) {
+      $rootScope.showBusy();
+    }
+  });
+
+  $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    if (toState.resolve) {
+      $timeout(function() {
+        $rootScope.hideBusy();
+      });
+    }
+  });
 });
+/* jshint ignore:end */
