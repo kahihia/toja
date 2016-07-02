@@ -131,7 +131,7 @@ def hospital_nearest(request, lat, lon):
 
         hospitals = Hospital.objects.filter(has_location=True)
         ordered = sorted(hospitals, key=lambda h: haversine(lat, lon, h.latitude, h.longitude))
-        
+
         if len(ordered) > 0:
             serializer = HospitalSerializer(ordered[0])
             return JSONResponse(serializer.data)
