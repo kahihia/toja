@@ -23,7 +23,7 @@ class XMLResponse(HttpResponse):
 
 def XML_generate(pk):
     call_info = Call.objects.get(pk=pk)
-    url = 'http://47.88.212.198:8000/gather/' + str(pk)
+    url = 'http://47.88.212.198:8000/gather/' + str(pk) + '/'
     num_people = call_info.num_people
     time = call_info.time
     date = call_info.date
@@ -45,7 +45,7 @@ def XML_generate(pk):
 
 def XML_generate_sorry(pk):
     call_info = Call.objects.get(pk=pk)
-    url = 'http://47.88.212.198:8000/gather/' + str(pk)
+    url = 'http://47.88.212.198:8000/gather/' + str(pk) + '/'
     xml = '<Response> ' \
           '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="{0}">' \
           '<Say language="en-US"> Sorry. You chose the wrong number! Please choose again. ' \
@@ -106,7 +106,7 @@ def twilio_call(request):
     call_info.save()
     # After save, I have this id.
     pk = call_info.pk
-    url = "http://47.88.212.198:8000/reservation/" + str(pk)
+    url = "http://47.88.212.198:8000/reservation/" + str(pk) + '/'
 
     client = TwilioRestClient(account_sid, auth_token)
 
