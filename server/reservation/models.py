@@ -12,7 +12,6 @@ class Call(models.Model):
     date = models.CharField(max_length=100, blank=True, default='')
     time = models.CharField(max_length=100, blank=True, default='')
     res_num = models.CharField(max_length=13, blank=False, default='')
-    language_opt = models.IntegerField
 
     READY = 911
     ON_CALLING = 5
