@@ -47,21 +47,21 @@ def XML_generate(pk):
         if num_people == 1:
             num_people_text = u'ひとり'
         elif num_people == 2:
-            num_people_text = u'ひとり'
+            num_people_text = u'ふたり'
         else:
             num_people_text = num_people + u'人'
 
         xml = '<?xml version="1.0" encoding="UTF-8"?>' \
               '<Response> ' \
               '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="{0}"> ' \
-              u'<Say language="ja-JP"> わたしは、ろぼっとです。にほんごをはなせない{1}さんのかわりにでんわしています。' \
-              u'{1}さんは、{2}、{3}じから、 {4}のよやくをしたいです。' \
-              u'よやくかのうなばあいは、１をおしてください。' \
-              u'よやくできないばあいは、２をおしてください。' \
-              u'もういちど、ききなおすばあいは、５をおしてください' \
+              '<Say language="ja-JP"> 私は、自動予約ロボットの、トージャです。今回は、{1}さんのかわりに予約しています。' \
+              '{1}さんは、{2}、{3}時から、 {4}の予約をしたいです。' \
+              '予約可能な場合は、１をおしてください。' \
+              '予約出来ない場合は、２をおしてください。' \
+              '、もう一度、聞き直す場合は、５を、おしてください' \
               '</Say> ' \
               '</Gather> ' \
-              u'<Say>我々は、任意の入力を受信しませんでした。 さようなら！</Say> ' \
+              '<Say>我々は、十分な情報が確認できませんでした。 またのご利用をお待ちしております！</Say> ' \
               '</Response>'.format(url, name, date, time, num_people_text)
 
     else:
