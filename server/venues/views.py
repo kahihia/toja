@@ -79,13 +79,22 @@ def venue_nearby(request, lat, lon):
         Calculate the great circle distance between two points
         on the earth (specified in decimal degrees)
         """
+        print(lon1, lat1, lon2, lat2)
+
         # convert decimal degrees to radians
         lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
         # haversine formula
         dlon = lon2 - lon1
         dlat = lat2 - lat1
-        a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-        c = 2 * asin(sqrt(a))
-        km = 6367 * c
+        a = sin(dlat/2.0)**2.0 + cos(lat1) * cos(lat2) * sin(dlon/2.0)**2.0
+        c = 2.0 * asin(sqrt(a))
+        km = 6367.0 * c
         return km
-    return JSONResponse([], status=404)
+
+    venues = Venue.objects.all()
+    venues = [venue for venue in venues if haversine(float(lon), float(lat), float(venue.longitude), float(venue.latitude)) < 0.5]
+    print(len(venues))
+
+    serializer = VenueSerializer(venues, many=True)
+    response = JSONResponse(serializer.data)
+    return response

@@ -44,12 +44,17 @@ def json_to_venue(item):
         'gurunavi_url': ['url'],
         'longitude': ['location', 'longitude'],
         'latitude': ['location', 'latitude'],
-        'budget': ['budget'],
+        # 'budget': ['budget'],
         'address': ['contacts', 'address'],
         'phone': ['contacts', 'tel'],
         'description': ['sales_points', 'pr_short'],
         'opening_times': ['business_hour'],
     }
+
+    try:
+        venue.budget = float(item['budget'])
+    except ValueError:
+        venue.budget = 0
 
     for key in value_mapping:
         try:

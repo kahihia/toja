@@ -13,7 +13,7 @@ class Venue(models.Model):
     latitude = models.TextField(max_length=100, blank=True, default='')
     longitude = models.TextField(max_length=100, blank=True, default='')
     images = models.TextField(default='')
-    budget = models.CharField(max_length=100, blank=True, default='')
+    budget = models.FloatField(default=0.0)
     description = models.TextField(default='')
 
     class Meta:
