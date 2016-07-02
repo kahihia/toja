@@ -1,0 +1,14 @@
+listing-item {
+  @include display(flex);
+
+  .item {
+    &-title {
+      margin: 0;
+      margin-bottom: $small-spacing;
+    }
+
+    &-subtitle {
+      margin: 0;
+    }
+  }
+}

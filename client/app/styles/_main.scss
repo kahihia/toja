@@ -1,0 +1,10 @@
+#main {
+  md-pagination-wrapper {
+    width: 100% !important;
+    @include display(flex);
+  }
+
+  .md-tab {
+    @include flex(1);
+  }
+}
