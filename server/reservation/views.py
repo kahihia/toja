@@ -14,7 +14,7 @@ DECLINE_XML = ['<?xml version="1.0" encoding="UTF-8"?> ' \
 
                '<?xml version="1.0" encoding="UTF-8"?> ' \
                '<Response>' \
-               '<Say language="ja-JP"> わかりました。どうもありがとうございます。また、りようさせていただきます。</Say>' \
+               u'<Say language="ja-JP"> わかりました。どうもありがとうございます。また、りようさせていただきます。</Say>' \
                '</Response>'
                ]
 
@@ -25,7 +25,7 @@ ACCEPT_XML = ['<?xml version="1.0" encoding="UTF-8"?> ' \
 
               '<?xml version="1.0" encoding="UTF-8"?> ' \
               '<Response>' \
-              '<Say language="ja-JP"> よやくしていただいて、どうもありがとうございました。どうぞよろしくおねがいします。</Say>' \
+              u'<Say language="ja-JP"> よやくしていただいて、どうもありがとうございました。どうぞよろしくおねがいします。</Say>' \
               '</Response>'
               ]
 
@@ -54,14 +54,14 @@ def XML_generate(pk):
         xml = '<?xml version="1.0" encoding="UTF-8"?>' \
               '<Response> ' \
               '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="{0}"> ' \
-              '<Say language="ja-JP"> 私は、自動予約ロボットの、トージャです。今回は、{1}さんのかわりに予約しています。' \
-              '{1}さんは、{2}、{3}時から、 {4}の予約をしたいです。' \
-              '予約可能な場合は、１をおしてください。' \
-              '予約出来ない場合は、２をおしてください。' \
-              '、もう一度、聞き直す場合は、５を、おしてください' \
+              u'<Say language="ja-JP"> 私は、自動予約ロボットの、トージャです。今回は、{1}さんのかわりに予約しています。' \
+              u'{1}さんは、{2}、{3}時から、 {4}の予約をしたいです。' \
+              u'予約可能な場合は、１をおしてください。' \
+              u'予約出来ない場合は、２をおしてください。' \
+              u'、もう一度、聞き直す場合は、５を、おしてください' \
               '</Say> ' \
               '</Gather> ' \
-              '<Say>我々は、十分な情報が確認できませんでした。 またのご利用をお待ちしております！</Say> ' \
+              u'<Say>我々は、十分な情報が確認できませんでした。 またのご利用をお待ちしております！</Say> ' \
               '</Response>'.format(url, name, date, time, num_people_text)
 
     else:
@@ -86,13 +86,13 @@ def XML_generate_sorry(pk):
     if call_info.language_opt == Call.JAPANESE:
         xml = '<Response> ' \
               '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="{0}">' \
-              '<Say language="ja-JP"> あなたは間違った番号を選びました！もう一度お選びください。 ' \
-              'よやくかのうなばあいは、１をおしてください。' \
-              'よやくできないばあいは、２をおしてください。' \
-              'もういちど、ききなおすばあいは、５をおしてください' \
+              u'<Say language="ja-JP"> あなたは間違った番号を選びました！もう一度お選びください。 ' \
+              u'よやくかのうなばあいは、１をおしてください。' \
+              u'よやくできないばあいは、２をおしてください。' \
+              u'もういちど、ききなおすばあいは、５をおしてください' \
               '</Say> ' \
               '</Gather> ' \
-              '<Say>我々は、任意の入力を受信しませんでした。 さようなら！ </Say> ' \
+              u'<Say>我々は、任意の入力を受信しませんでした。 さようなら！ </Say> ' \
               '</Response>'.format(url)
     else:
         xml = '<Response> ' \
