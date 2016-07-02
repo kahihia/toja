@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 class XMLResponse(HttpResponse):
     def __init__(self, data, **kwargs):
-        kwargs['content_type'] = 'application/xhtml+xml'
+        kwargs['content_type'] = 'text/xml; charset=utf-8'
         super(XMLResponse, self).__init__(data, **kwargs)
 
 @csrf_exempt
@@ -86,4 +86,4 @@ def twilio_call(request):
         print(e)
 
     print(call.account_sid)
-
+    return HttpResponse("We are making the reservation call for you.")
