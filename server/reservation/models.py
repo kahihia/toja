@@ -13,11 +13,11 @@ class Call(models.Model):
     time = models.CharField(max_length=100, blank=True, default='')
     res_num = models.CharField(max_length=13, blank=False, default='')
 
-    READY = ''
-    ON_CALLING = '5'
-    ACCEPTED = '1'
-    DECLINED = '0'
-    FAILED = '-1'
+    READY = 911
+    ON_CALLING = 5
+    ACCEPTED = 1
+    DECLINED = 0
+    FAILED = -1
 
     STATUS_CHOICES = (
         (ON_CALLING, 'We are in the middle of the call to the restaurant.'),
@@ -27,8 +27,7 @@ class Call(models.Model):
         (READY, 'We are ready to make the call.')
     )
 
-    status = models.CharField(
-        max_length=1,
+    status = models.IntegerField(
         choices=STATUS_CHOICES,
         default=READY,
     )
