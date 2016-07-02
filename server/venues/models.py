@@ -9,7 +9,7 @@ class Venue(models.Model):
     gurunavi_url = models.CharField(max_length=100, blank=True, default='')
     address = models.TextField()
     latitude = models.TextField(max_length=100, blank=True, default='')
-    longditude = models.TextField(max_length=100, blank=True, default='')
+    longitude = models.TextField(max_length=100, blank=True, default='')
     images = models.TextField(default='')
 
     class Meta:

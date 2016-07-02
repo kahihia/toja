@@ -5,4 +5,4 @@ from models import Venue
 class VenueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Venue
-        fields = ('name', 'gurunavi_id', 'gurunavi_url', 'address', 'latitude', 'longditude', 'images')
+        fields = ('name', 'gurunavi_id', 'gurunavi_url', 'address', 'latitude', 'longitude', 'images')
