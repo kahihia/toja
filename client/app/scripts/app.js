@@ -23,7 +23,8 @@ angular
   'ui.router',
   'ksSwiper',
   'uiGmapgoogle-maps',
-  'ngMaterialDatePicker'
+  'ngMaterialDatePicker',
+  'ngStorage'
 ])
 .constant('API_END_POINT', 'http://10.201.120.53:8000')
 

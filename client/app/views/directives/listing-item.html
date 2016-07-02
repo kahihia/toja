@@ -9,8 +9,9 @@
           {{ item.description | stripTags }}
         </p>
       </div>
-      <md-button class="md-icon-button" aria-label="Favorite">
-        <i class="zmdi zmdi-star-outline zmdi-hc-2x"></i>
+      <md-button ng-click="fave($event)" class="md-icon-button" aria-label="Favorite">
+        <i ng-if="!$localStorage.faves.venues[item.id]" class="zmdi zmdi-star-outline zmdi-hc-2x"></i>
+        <i ng-if="$localStorage.faves.venues[item.id]" class="zmdi zmdi-star zmdi-hc-2x"></i>
       </md-button>
     </div>
   </md-card-content>
