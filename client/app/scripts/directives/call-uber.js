@@ -7,25 +7,26 @@
  * # callUber
  */
 angular.module('clientApp')
-  .directive('callUber', function ($mdDialog) {
+  .directive('callUber', function ($mdDialog, $window, Uber) {
     return {
       templateUrl: 'views/directives/call-uber.html',
       restrict: 'E',
       replace: true,
+      scope: {
+        place: '='
+      },
       link: function postLink(scope) {
         scope.callUber = function(event) {
-          var confirm = $mdDialog.confirm()
-            .title('Open in Uber?')
-            //.textContent('All of the banks have agreed to forgive you your debts.')
-            .ariaLabel('Uber')
-            .targetEvent(event)
-            .ok('OK')
-            .cancel('Cancel');
-          $mdDialog.show(confirm).then(function onOk() {
-            console.debug('Open in Uber');
-          }, function onCancel() {
-            console.debug('Cancel pressed');
+          event.preventDefault();
+
+          var url = Uber.generateRideRequestUrl({
+            dropoff: {
+              name: scope.place.name,
+              latitude: scope.place.latitude,
+              longitude: scope.place.longitude
+            }
           });
+          $window.location.href = url;
         };
       }
     };

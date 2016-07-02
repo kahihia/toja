@@ -26,7 +26,7 @@ angular
   'ngMaterialDatePicker',
   'ngStorage'
 ])
-.constant('API_END_POINT', 'http://10.201.120.53:8000')
+.constant('API_END_POINT', 'http://10.201.120.132:8000')
 
 .config(function ($urlRouterProvider, uiGmapGoogleMapApiProvider) {
   $urlRouterProvider.otherwise('/');

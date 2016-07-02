@@ -1,6 +1,6 @@
 <md-content layout-padding id="reserve">
-  <p><b>Reserve for:</b> Robot Cafe<br>
-  <b>Address:</b> 1-7-1 Kabukicho, Shinjuku, Tokyo</p>
+  <p><b>Reserve for:</b> {{ ctrl.venue.name }}<br>
+  <b>Address:</b> {{ ctrl.venue.address }}</p>
 
   <form name="ctrl.reservationForm">
     <div layout="column">
@@ -11,7 +11,7 @@
 
       <md-input-container>
         <label>Number of Guest</label>
-        <input ng-model="ctrl.reservation.guestNumber" required>
+        <input ng-model="ctrl.reservation.guestNumber" type="tel" required>
       </md-input-container>
 
       <div layout="row">

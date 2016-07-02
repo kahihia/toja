@@ -17,8 +17,8 @@
     </p>
 
     <div layout="row" layout-align="center center">
-      <md-button class="md-primary md-raised" ui-sref="reserve({id: 'anything'})">Reserve</md-button>
-      <call-uber></call-uber>
+      <md-button class="md-primary md-raised" ui-sref="reserve({id: ctrl.venue.id})">Reserve</md-button>
+      <call-uber place="ctrl.venue"></call-uber>
     </div>
 
     <ui-gmap-google-map
