@@ -23,52 +23,36 @@ angular.module('clientApp')
   });
 
 })
-.controller('MainCtrl', function () {
-  this.venues = [
+.controller('MainCtrl', function (venues) {
+  var foodPriceRangeOptions = [
     {
-      id: 94763,
-      name: 'Sakuraya',
-      address: 'Etoile Yoshihama 1F, 1-9, Yoshihamacho, Naka-ku, Yokohama-shi, Kanagawa, 231-0024',
-      latitude: '35.436733',
-      longitude: '139.645433',
-      images: ['https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg'],
-      description: 'A large scale, Japanese-style show restaurant. <BR>Geisha, Samurai, Courtesans, and Kimono via modern Japanese entertainment is here!!'
+      min: 0,
+      max: 9999999,
+      label: 'Any price'
     },
     {
-      id: 94763,
-      name: 'Sakuraya',
-      address: 'Etoile Yoshihama 1F, 1-9, Yoshihamacho, Naka-ku, Yokohama-shi, Kanagawa, 231-0024',
-      latitude: '35.436733',
-      longitude: '139.645433',
-      images: ['https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg'],
-      description: 'A large scale, Japanese-style show restaurant. <BR>Geisha, Samurai, Courtesans, and Kimono via modern Japanese entertainment is here!!'
+      min: 0,
+      max: 2000,
+      label: 'Less than $20'
     },
     {
-      id: 94763,
-      name: 'Sakuraya',
-      address: 'Etoile Yoshihama 1F, 1-9, Yoshihamacho, Naka-ku, Yokohama-shi, Kanagawa, 231-0024',
-      latitude: '35.436733',
-      longitude: '139.645433',
-      images: ['https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg'],
-      description: 'A large scale, Japanese-style show restaurant. <BR>Geisha, Samurai, Courtesans, and Kimono via modern Japanese entertainment is here!!'
+      min: 2001,
+      max: 5000,
+      label: 'From $21 to $50'
     },
     {
-      id: 94763,
-      name: 'Sakuraya',
-      address: 'Etoile Yoshihama 1F, 1-9, Yoshihamacho, Naka-ku, Yokohama-shi, Kanagawa, 231-0024',
-      latitude: '35.436733',
-      longitude: '139.645433',
-      images: ['https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg'],
-      description: 'A large scale, Japanese-style show restaurant. <BR>Geisha, Samurai, Courtesans, and Kimono via modern Japanese entertainment is here!!'
-    },
-    {
-      id: 94763,
-      name: 'Sakuraya',
-      address: 'Etoile Yoshihama 1F, 1-9, Yoshihamacho, Naka-ku, Yokohama-shi, Kanagawa, 231-0024',
-      latitude: '35.436733',
-      longitude: '139.645433',
-      images: ['https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg'],
-      description: 'A large scale, Japanese-style show restaurant. <BR>Geisha, Samurai, Courtesans, and Kimono via modern Japanese entertainment is here!!'
+      min: 5001,
+      max: 9999999,
+      label: 'More than $51'
     }
   ];
+
+  this.foodTab = {
+    priceRangeOptions: foodPriceRangeOptions,
+    priceRange: foodPriceRangeOptions[0]
+  };
+
+  this.venues = venues;
+
+  this.venueLimit = 5;
 });

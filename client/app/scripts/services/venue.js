@@ -12,7 +12,24 @@ angular.module('clientApp')
     return $resource(API_END_POINT + '/api/venues/:id', {}, {
       query: {
         method: 'GET',
-        isArray: true
+        isArray: true,
+        transformResponse: function(data) {
+          var records = angular.fromJson(data);
+
+          if (!records) {
+            return [];
+          }
+
+          // TODO: return Array of images from server side
+          // instead of String
+          if (records instanceof Array) {
+            records.map(function(record) {
+              record.images = JSON.parse(record.images);
+              return record;
+            });
+            return records;
+          }
+        }
       }
     });
   });

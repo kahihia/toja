@@ -4,7 +4,10 @@
     <div layout="row">
       <div class="item-info" flex>
         <h3 class="md-title item-title">{{ item.name }}</h3>
-        <p class="item-subtitle">{{ item.description | stripTags }}</p>
+        <p class="item-subtitle md-body-1">
+          <span class="md-body-2">${{ item.budget | toUsd }}</span><br>
+          {{ item.description | stripTags }}
+        </p>
       </div>
       <md-button class="md-icon-button" aria-label="Favorite">
         <i class="zmdi zmdi-star-outline zmdi-hc-2x"></i>

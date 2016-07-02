@@ -4,14 +4,20 @@
       <md-content class="md-padding">
         <listing-item item="item" ui-sref="place-detail({
           id: item.id
-        })" ng-repeat="item in ctrl.venues"></listing-item>
+        })" ng-repeat="item in (ctrl.venues | limitTo:ctrl.venueLimit)"></listing-item>
       </md-content>
     </md-tab>
     <md-tab label="Foods">
       <md-content class="md-padding">
+        <md-select ng-model="ctrl.foodTab.priceRange">
+          <md-option ng-repeat="option in ctrl.foodTab.priceRangeOptions" ng-value="option">
+            {{ option.label }}
+          </md-option>
+        </md-select>
+
         <listing-item item="item" ui-sref="restaurant-detail({
           id: item.id
-        })" ng-repeat="item in ctrl.venues"></listing-item>
+        })" ng-repeat="item in (ctrl.venues | priceRange:ctrl.foodTab.priceRange | limitTo:ctrl.venueLimit)"></listing-item>
       </md-content>
     </md-tab>
   </md-tabs>
