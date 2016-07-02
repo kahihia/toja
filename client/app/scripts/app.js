@@ -21,7 +21,8 @@ angular
   'ngMaterial',
   'ui.router',
   'ksSwiper',
-  'uiGmapgoogle-maps'
+  'uiGmapgoogle-maps',
+  'ngMaterialDatePicker'
 ])
 .config(function ($urlRouterProvider, uiGmapGoogleMapApiProvider) {
   $urlRouterProvider.otherwise('/');

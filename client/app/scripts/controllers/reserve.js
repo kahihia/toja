@@ -18,10 +18,6 @@ angular.module('clientApp')
   });
 
 })
-.controller('ReserveCtrl', function () {
-  this.awesomeThings = [
-    'HTML5 Boilerplate',
-    'AngularJS',
-    'Karma'
-  ];
+.controller('ReserveCtrl', function ($window) {
+  this.minDate = $window.moment();
 });
