@@ -27,13 +27,15 @@ def venue_list(request):
         serializer = VenueSerializer(snippets, many=True)
         return JSONResponse(serializer.data)
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = VenueSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        return JSONResponse(serializer.errors, status=400)
+    return JSONResponse(status=403)
+
+    # elif request.method == 'POST':
+    #     data = JSONParser().parse(request)
+    #     serializer = VenueSerializer(data=data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return JSONResponse(serializer.data, status=201)
+    #     return JSONResponse(serializer.errors, status=400)
 
 
 @csrf_exempt
@@ -50,14 +52,16 @@ def venue_detail(request, pk):
         serializer = VenueSerializer(snippet)
         return JSONResponse(serializer.data)
 
-    elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = VenueSerializer(snippet, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data)
-        return JSONResponse(serializer.errors, status=400)
+    return JSONResponse(status=403)
 
-    elif request.method == 'DELETE':
-        snippet.delete()
-        return HttpResponse(status=204)
+    # elif request.method == 'PUT':
+    #     data = JSONParser().parse(request)
+    #     serializer = VenueSerializer(snippet, data=data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return JSONResponse(serializer.data)
+    #     return JSONResponse(serializer.errors, status=400)
+    #
+    # elif request.method == 'DELETE':
+    #     snippet.delete()
+    #     return HttpResponse(status=204)
