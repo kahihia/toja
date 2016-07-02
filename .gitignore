@@ -89,5 +89,3 @@ ENV/
 .ropeproject
 
 secrets.py
-
-.idea
