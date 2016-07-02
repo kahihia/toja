@@ -11,8 +11,7 @@ angular.module('clientApp')
     return {
       templateUrl: 'views/directives/listing-item.html',
       restrict: 'E',
-      link: function postLink(scope) {
-        element.text('this is the listingItem directive');
+      link: function postLink() {
       }
     };
   });

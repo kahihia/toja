@@ -8,10 +8,20 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('MainCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+.config(function($stateProvider) {
+
+  $stateProvider
+  .state('main', {
+    url: '/',
+    templateUrl: 'views/main.html',
+    controller: 'MainCtrl as ctrl'
   });
+
+})
+.controller('MainCtrl', function () {
+  this.awesomeThings = [
+    'HTML5 Boilerplate',
+    'AngularJS',
+    'Karma'
+  ];
+});

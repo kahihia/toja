@@ -9,6 +9,7 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
@@ -26,7 +27,7 @@
     <!-- <ng-include src="'views/partials/sidenav.html'" include-replace></ng-include> -->
 
     <div class="container">
-    <div ng-view=""></div>
+      <div ui-view></div>
     </div>
 
     <footer id="footer">
@@ -49,6 +50,7 @@
        ga('send', 'pageview');
     </script>
 
+    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
@@ -61,14 +63,27 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/swiper/dist/js/swiper.js"></script>
+    <script src="bower_components/angular-swiper/dist/angular-swiper.js"></script>
+    <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/markerclustererplus/src/markerclusterer.js"></script>
+    <script src="bower_components/google-maps-utility-library-v3-markerwithlabel/dist/markerwithlabel.js"></script>
+    <script src="bower_components/google-maps-utility-library-v3-infobox/dist/infobox.js"></script>
+    <script src="bower_components/google-maps-utility-library-v3-keydragzoom/dist/keydragzoom.js"></script>
+    <script src="bower_components/js-rich-marker/src/richmarker.js"></script>
+    <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/directives/listing-item.js"></script>
+        <script src="scripts/controllers/listing-detail.js"></script>
         <!-- endbuild -->
 </body>
 </html>

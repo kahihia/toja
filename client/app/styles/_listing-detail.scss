@@ -1,0 +1,19 @@
+#listing-detail {
+  .angular-google-map-container {
+    height: 300px;
+  }
+
+  .near-by {
+    background-color: #F9F9F9;
+  }
+
+  .item-info {
+    @include display(flex);
+    @include flex-direction(column);
+    padding-left: $base-spacing;
+  }
+
+  .md-button.md-icon-button {
+    padding: 6px;
+  }
+}

@@ -18,21 +18,17 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ngMaterial'
+    'ngMaterial',
+    'ui.router',
+    'ksSwiper',
+    'uiGmapgoogle-maps'
   ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
+  .config(function ($urlRouterProvider, uiGmapGoogleMapApiProvider) {
+    $urlRouterProvider.otherwise('/');
+
+    uiGmapGoogleMapApiProvider.configure({
+      key: 'AIzaSyBwhccxQP4Au0m2QgiGXbqMEDr54728uTo',
+      v: '3.20', //defaults to latest 3.X anyhow
+      libraries: 'weather,geometry,visualization'
+    });
   });
