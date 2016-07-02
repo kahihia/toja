@@ -34,6 +34,8 @@ def assign_value(object_from, object_to, property, keylist):
 def json_to_venue(item):
 
     venue = Venue()
+    venue.images = '[https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg,'\
+        + 'https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg]'
 
     value_mapping = {
         'name': ['name', 'name'],
