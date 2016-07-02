@@ -25,6 +25,8 @@ from django.conf.urls import include
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
+from reservation.models import Call
+
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -38,9 +40,23 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+
+# Serializers define the API representation.
+class CallSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Call
+        fields = ('name', 'num_people', 'date', 'time', 'res_num')
+
+
+# ViewSets define the view behavior.
+class CallViewSet(viewsets.ModelViewSet):
+    queryset = Call.objects.all()
+    serializer_class = CallSerializer
+
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'calls-api', CallViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
