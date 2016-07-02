@@ -2,14 +2,16 @@
   <md-tabs md-dynamic-height md-border-bottom>
     <md-tab label="Places to visit">
       <md-content class="md-padding">
-        <listing-item ui-sref="listing-detail({
+        <listing-item ui-sref="place-detail({
           id: 'anything'
         })" ng-repeat="i in [1,2,3,4,5]"></listing-item>
       </md-content>
     </md-tab>
     <md-tab label="Foods">
       <md-content class="md-padding">
-        <listing-item ng-repeat="i in [1,2,3,4,5]"></listing-item>
+        <listing-item ui-sref="restaurant-detail({
+          id: 'anything'
+        })" ng-repeat="i in [1,2,3,4,5]"></listing-item>
       </md-content>
     </md-tab>
   </md-tabs>

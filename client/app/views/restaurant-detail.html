@@ -1,0 +1,51 @@
+<md-content id="listing-detail">
+  <ks-swiper-container loop="false" slides-per-view="1" space-between="5" pagination-clickable="false">
+      <ks-swiper-slide class="swiper-slide" ng-repeat="s in [1,2,3,4]">
+          <img ng-src="https://material.angularjs.org/latest/img/washedout.png">
+      </ks-swiper-slide>
+  </ks-swiper-container>
+
+  <md-content layout-padding>
+    <h1 class="md-title">This is a title</h1>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+    <div layout="row" layout-align="center center">
+      <md-button class="md-primary md-raised">Make Reservation</md-button>
+      <md-button class="md-primary md-raised">Call Uber</md-button>
+    </div>
+
+    <ui-gmap-google-map center="ctrl.map.center" zoom="ctrl.map.zoom"></ui-gmap-google-map>
+  </md-content>
+
+  <md-content class="near-by" layout-padding>
+    <h2 class="md-title">Near by Restaurants</h2>
+
+    <md-card>
+      <md-card-title>
+        <md-card-title-media>
+          <div class="md-media-md card-media" style="background-image: url(https://material.angularjs.org/latest/img/washedout.png)">
+          </div>
+        </md-card-title-media>
+        <md-card-title-text>
+          <div class="item-info">
+            <span class="md-headline">Robot Cafe</span>
+            <span class="md-subhead">Shinjuku</span>
+          </div>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button class="md-icon-button" aria-label="Favorite">
+          <i class="zmdi zmdi-star-outline zmdi-hc-2x"></i>
+        </md-button>
+        <md-button class="md-raised md-primary">Reserve</md-button>
+        <md-button class="md-raised md-primary">Call Uber</md-button>
+      </md-card-actions>
+    </md-card>
+  </md-content>
+</md-content>
