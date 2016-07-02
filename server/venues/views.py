@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from venues.models import Venue, Category
 from venues.serializers import VenueSerializer, CategorySerializer
 
-from server.requests import JSONResponse
+from server.requests import JSONResponse, haversine
 
 @csrf_exempt
 def venue_list(request):
@@ -60,34 +60,13 @@ def venue_detail(request, pk):
 @csrf_exempt
 def venue_nearby(request, lat, lon):
 
-    # https://stackoverflow.com/questions/15736995/how-can-i-quickly-estimate-the-distance-between-two-latitude-longitude-points
-
-    from math import radians, cos, sin, asin, sqrt
-
-    def haversine(lon1, lat1, lon2, lat2):
-        """
-        Calculate the great circle distance between two points
-        on the earth (specified in decimal degrees)
-        """
-        print(lon1, lat1, lon2, lat2)
-
-        # convert decimal degrees to radians
-        lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-        # haversine formula
-        dlon = lon2 - lon1
-        dlat = lat2 - lat1
-        a = sin(dlat/2.0)**2.0 + cos(lat1) * cos(lat2) * sin(dlon/2.0)**2.0
-        c = 2.0 * asin(sqrt(a))
-        km = 6367.0 * c
-        return km
-
     venues = Venue.objects.all()
-    venues = [venue for venue in venues if haversine(float(lon), float(lat), float(venue.longitude), float(venue.latitude)) < 0.5]
-    print(len(venues))
+    venues = [v for v in venues if haversine(float(lon), float(lat), float(v.longitude), float(v.latitude)) < 0.5]
 
     serializer = VenueSerializer(venues, many=True)
     response = JSONResponse(serializer.data)
     return response
+
 
 @csrf_exempt
 def category_list(request):

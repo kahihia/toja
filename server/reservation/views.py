@@ -1,40 +1,51 @@
 # coding=utf-8
-from django.views.decorators.csrf import csrf_exempt
+
+import pytz
+import datetime
+
 from twilio import TwilioRestException
 from twilio.rest import TwilioRestClient
-from models import Call
+
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
-# Create your views here.
+from server.requests import JSONResponse
 
-DECLINE_XML = ['<?xml version="1.0" encoding="UTF-8"?> ' \
-              '<Response>' \
-              '<Say language="en-US"> You have declined the reservation. What a pity. You could earn money.</Say>' \
-              '</Response>',
+from models import Call
+from serializers import CallSerializer
 
-               '<?xml version="1.0" encoding="UTF-8"?> ' \
-               '<Response>' \
-               u'<Say language="ja-JP"> わかりました。どうもありがとうございます。また、りようさせていただきます。</Say>' \
+
+DECLINE_XML = ['<?xml version="1.0" encoding="UTF-8"?> '
+               '<Response>'
+               '<Say language="en-US"> You have declined the reservation. What a pity. You could earn money.</Say>'
+               '</Response>',
+
+               '<?xml version="1.0" encoding="UTF-8"?> '
+               '<Response>'
+               u'<Say language="ja-JP"> わかりました。どうもありがとうございます。また、りようさせていただきます。</Say>'
                '</Response>'
                ]
 
-ACCEPT_XML = ['<?xml version="1.0" encoding="UTF-8"?> ' \
-              '<Response>' \
-              '<Say language="en-US"> You have accepted the reservation. Thank you very much.</Say>' \
+ACCEPT_XML = ['<?xml version="1.0" encoding="UTF-8"?> '
+              '<Response>'
+              '<Say language="en-US"> You have accepted the reservation. Thank you very much.</Say>'
               '</Response>',
 
-              '<?xml version="1.0" encoding="UTF-8"?> ' \
-              '<Response>' \
-              u'<Say language="ja-JP"> よやくしていただいて、どうもありがとうございました。どうぞよろしくおねがいします。</Say>' \
+              '<?xml version="1.0" encoding="UTF-8"?> '
+              '<Response>'
+              u'<Say language="ja-JP"> よやくしていただいて、どうもありがとうございました。どうぞよろしくおねがいします。</Say>'
               '</Response>'
               ]
+
 
 class XMLResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         kwargs['content_type'] = 'text/xml; charset=utf-8'
         super(XMLResponse, self).__init__(data, **kwargs)
 
-def XML_generate(pk):
+
+def xml_generate(pk):
+
     call_info = Call.objects.get(pk=pk)
     url = 'http://47.88.212.198:8000/gather/' + str(pk) + '/'
     num_people = call_info.num_people
@@ -42,6 +53,15 @@ def XML_generate(pk):
     date = call_info.date
     name = call_info.name
     language = call_info.language_opt
+
+    # Using datetime field.
+    # How does the Japanese deal with the date formatting?
+
+    dt = call_info.datetime
+    month = dt.strftime('%m').lstrip('0')
+    day = dt.strftime('%d').lstrip('0')
+    hour = dt.strftime('%d').lstrip('0')
+    minute = dt.strftime('%d').lstrip('0')
 
     if language == Call.JAPANESE:
         if num_people == 1:
@@ -65,21 +85,28 @@ def XML_generate(pk):
               '</Response>'.format(url, name, date, time, num_people_text)
 
     else:
+
+        if num_people == 1:
+            num_people_text = '1 person'
+        else:
+            num_people_text = str(num_people) + ' people'
+
         xml = '<?xml version="1.0" encoding="UTF-8"?>' \
               '<Response> ' \
               '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="{0}"> ' \
               '<Say language="en-US"> Hi, this is an automated call from Toza. We want to reserve a table for {1} ' \
-              'people at {2} {3}. The reservation is under the name of {4}... Again, the name is {4}...' \
+              'at {2} {3}. The reservation is under the name of {4}... Again, the name is {4}...' \
               'Please press one to accept the reservation, press zero to decline! ' \
               'Or press 5 to listen to the message again.' \
               '</Say> ' \
               '</Gather> ' \
               '<Say>We did not receive any input. Goodbye!</Say> ' \
-              '</Response>'.format(url, num_people, time, date, name)
+              '</Response>'.format(url, num_people_text, time, date, name)
 
     return xml
 
-def XML_generate_sorry(pk):
+
+def xml_generate_sorry(pk):
     call_info = Call.objects.get(pk=pk)
     url = 'http://47.88.212.198:8000/gather/' + str(pk) + '/'
 
@@ -107,10 +134,11 @@ def XML_generate_sorry(pk):
 
     return xml
 
+
 @csrf_exempt
 def reservation(request, pk):
-    xml = XML_generate(pk = pk)
-    if request.method == "POST":
+    xml = xml_generate(pk=pk)
+    if request.method == "GET":
         call_info = Call.objects.get(pk=pk)
         call_info.status = Call.ON_CALLING
         call_info.save()
@@ -133,47 +161,97 @@ def gather(request, pk):
         call_info.status = Call.DECLINED
         call_info.save()
     elif digit == '5':
-        xml = XML_generate(pk = pk)
+        xml = xml_generate(pk=pk)
     else:
-        xml = XML_generate_sorry(pk = pk)
+        xml = xml_generate_sorry(pk=pk)
 
     response = XMLResponse(xml)
-
     return response
 
+
 def twilio_call(request):
+
+    if request.method is not 'POST':
+        return HttpResponse(status=400)
+
     account_sid = "AC9fd29fc278859337de38574c25843043"  # Your Account SID from www.twilio.com/console
     auth_token = "22388542078a89a05e264409a2ef0055"  # Your Auth Token from www.twilio.com/console
 
-    name = request.GET.get('Name')
-    num_people = request.GET.get('NPeople')
-    date = request.GET.get('Date')
-    time = request.GET.get('Time')
-    #res_num = request.GET.get('ResNum')
+    required = ['name', 'npeople', 'date', 'time', 'lang']
+    for req in required:
+        if req not in request.POST:
+            return JSONResponse(status=400)
+
+    name = request.GET.get('name')
+    num_people = request.GET.get('npeople')
+    date = request.GET.get('date')
+    time = request.GET.get('time')
+    # res_num = request.GET.get('ResNum')
     res_num = "+819071931989"
 
-    if request.GET.get('Lang') == "en":
-        language = Call.ENGLISH
-    elif request.GET.get('Lang') == "ja":
+    timestamp = request.POST.get('datetime')
+    jptz = pytz.timezone('Asia/Tokyo')
+    dt = datetime.datetime.fromtimestamp(timestamp, tz=jptz)
+
+    if request.GET.get('lang') == "ja":
         language = Call.JAPANESE
     else:
         language = Call.ENGLISH
 
-    call_info = Call(name = name, num_people = num_people, date = date, time = time,
-                     res_num = res_num, language_opt = language)
+    call_info = Call()
+    call_info.name = name
+    call_info.num_people = num_people
+    call_info.date = date
+    call_info.time = time
+    call_info.res_num = res_num
+    call_info.language_opt = language
+    call_info.datetime = dt
     call_info.save()
+
     # After save, I have this id.
     pk = call_info.pk
-    url = "http://47.88.212.198:8000/reservation/" + str(pk) + '/'
 
+    # Make request to Twilio.
+    url = "http://47.88.212.198:8000/reservation/" + str(pk) + '/'
     client = TwilioRestClient(account_sid, auth_token)
 
     try:
-        call = client.calls.create(url=url,
-                                   to=res_num,
-                                   from_="+81345304650")
+        call = client.calls.create(url=url, to=res_num, from_="+81345304650")
     except TwilioRestException as e:
         print(e)
 
-    #print(call.account_sid)
-    return HttpResponse("We are making the reservation call for you.")
+    serializer = CallSerializer(call_info)
+    return JSONResponse(serializer.data)
+    # return HttpResponse("We are making the reservation call for you.")
+
+
+@csrf_exempt
+def call_detail(request, pk):
+
+    if request.method != 'GET':
+        print(request.method)
+        return HttpResponse(status=403)
+
+    try:
+        call = Call.objects.get(pk=pk)
+    except Call.DoesNotExist:
+        return HttpResponse(status=404)
+
+    serializer = CallSerializer(call)
+    response = JSONResponse(serializer.data)
+    return response
+
+
+@csrf_exempt
+def check_status(request, pk):
+
+    if request.method != 'GET':
+        return HttpResponse(status=403)
+
+    try:
+        call = Call.objects.get(pk=pk)
+    except Call.DoesNotExist:
+        return HttpResponse(status=404)
+
+    status = {call.status: Call.STATUS_CHOICES[call.status]}
+    return JSONResponse(status)

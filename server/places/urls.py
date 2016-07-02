@@ -7,4 +7,7 @@ urlpatterns = [
     url(r'attractions/$', views.attraction_list),
     url(r'attractions/(?P<pk>\d+)/$', views.attraction_detail),
     url(r'attractions/in/(?P<pk>\d+)/$', views.area_attractions),
+    url(r'hospitals/$', views.hospital_list),
+    url(r'hospitals/(?P<pk>\d+)/$', views.hospital_detail),
+    url(r'hospitals/nearest/(?P<lat>\d+\.\d+)/(?P<lon>\d+\.\d+)', views.hospital_nearest)
 ]

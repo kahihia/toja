@@ -3,15 +3,13 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-# Create your models here.
 class Call(models.Model):
     name = models.CharField(max_length=100, blank=True, default='')
     num_people = models.CharField(max_length=3, blank=False, default='')
-    # date = models.DateField()
-    # time = models.TimeField()
+    datetime = models.DateTimeField()
     date = models.CharField(max_length=100, blank=True, default='')
     time = models.CharField(max_length=100, blank=True, default='')
-    res_num = models.CharField(max_length=13, blank=False, default='')
+    res_num = models.CharField(max_length=100, blank=False, default='')
 
     READY = 911
     ON_CALLING = 5
@@ -19,13 +17,17 @@ class Call(models.Model):
     DECLINED = 0
     FAILED = -1
 
-    STATUS_CHOICES = (
+    _STATUS_CHOICES = (
         (ON_CALLING, 'We are in the middle of the call to the restaurant.'),
         (ACCEPTED, 'Reservation has been accepted.'),
         (DECLINED, 'Reservation has been declined.'),
         (FAILED, 'The call is not successful.'),
         (READY, 'We are ready to make the call.')
     )
+
+    STATUS_CHOICES = {}
+    for status in _STATUS_CHOICES:
+        STATUS_CHOICES[status[0]] = status[1]
 
     ENGLISH = 0
     JAPANESE = 1
@@ -36,7 +38,7 @@ class Call(models.Model):
     )
 
     status = models.IntegerField(
-        choices=STATUS_CHOICES,
+        choices=_STATUS_CHOICES,
         default=READY
     )
 
