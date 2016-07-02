@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from places.models import Area, Attraction, Hospital
 from places.serializers import AreaSerializer, AttractionSerializer, HospitalSerializer
 
-from server.requests import JSONResponse
+from server.requests import JSONResponse, haversine
 
 
 @csrf_exempt
@@ -111,6 +111,32 @@ def hospital_detail(request, pk):
     if request.method == 'GET':
         serializer = HospitalSerializer(venue)
         return JSONResponse(serializer.data)
+
+    return JSONResponse(status=403)
+
+
+@csrf_exempt
+def hospital_nearest(request, lat, lon):
+    """
+    Retrieve nearest hospital.
+    """
+
+    if request.method == 'GET':
+
+        try:
+            lat = float(lat)
+            lon = float(lon)
+        except ValueError:
+            return JSONResponse(status=400)
+
+        hospitals = Hospital.objects.filter(has_location=True)
+        ordered = sorted(hospitals, key=lambda h: haversine(lat, lon, h.latitude, h.longitude))
+        
+        if len(ordered) > 0:
+            serializer = HospitalSerializer(ordered[0])
+            return JSONResponse(serializer.data)
+
+        return JSONResponse(status=404)
 
     return JSONResponse(status=403)
 
