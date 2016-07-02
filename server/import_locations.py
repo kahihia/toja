@@ -6,7 +6,7 @@ import googlemaps
 import django
 django.setup()
 
-from places.models import Area, Attraction
+from places.models import Area, Attraction, Hospital
 from server.secrets import GMAPS_KEY
 
 
@@ -26,6 +26,7 @@ def address_to_latlong(address):
 def delete_old():
     Area.objects.all().delete()
     Attraction.objects.all().delete()
+    Hospital.objects.all().delete()
 
 
 def add_area(line):
@@ -71,7 +72,31 @@ def add_attraction(line, current_area):
     return attraction
 
 
-def add_new_data(input_file):
+def add_hospitals(input_file):
+    with open(input_file, 'rU') as f:
+
+        reader = csv.DictReader(f)
+
+        for line in reader:
+
+            hospital = Hospital()
+            hospital.name = line['Name']
+            hospital.tel = line['Tel']
+            hospital.hours = line['Hours']
+            hospital.after_hours = line['After hours']
+            hospital.address = ", ".join([line['Address'], line['City']])
+            hospital.url = line['Link']
+            hospital.image = line['Picture']
+
+            success, lat, lon = address_to_latlong(hospital.address)
+            if success:
+                hospital.has_location = True
+                hospital.latitude, hospital.longitude = lat, lon
+
+            hospital.save()
+
+
+def add_area_attraction_data(input_file):
     with open(input_file, 'r') as f:
 
         current_area = None
@@ -97,5 +122,6 @@ def add_new_data(input_file):
 if __name__ == '__main__':
 
     delete_old()
-    add_new_data('locations.csv')
+    add_area_attraction_data('locations.csv')
+    add_hospitals('hospital.csv')
 

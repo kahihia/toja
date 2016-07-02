@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from places.models import Area, Attraction
-from places.serializers import AreaSerializer, AttractionSerializer
+from places.models import Area, Attraction, Hospital
+from places.serializers import AreaSerializer, AttractionSerializer, HospitalSerializer
 
 from server.requests import JSONResponse
 
@@ -83,4 +83,35 @@ def attraction_detail(request, pk):
         return JSONResponse(serializer.data)
 
     return JSONResponse(status=403)
+
+
+@csrf_exempt
+def hospital_list(request):
+    """
+    List all hospitals.
+    """
+    if request.method == 'GET':
+        snippets = Hospital.objects.all()
+        serializer = HospitalSerializer(snippets, many=True)
+        return JSONResponse(serializer.data)
+
+    return JSONResponse(status=403)
+
+
+@csrf_exempt
+def hospital_detail(request, pk):
+    """
+    Retrieve individual hospital.
+    """
+    try:
+        venue = Hospital.objects.get(pk=pk)
+    except Hospital.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = HospitalSerializer(venue)
+        return JSONResponse(serializer.data)
+
+    return JSONResponse(status=403)
+
 
