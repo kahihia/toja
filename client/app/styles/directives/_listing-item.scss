@@ -1,5 +1,6 @@
 listing-item {
   @include display(flex);
+  cursor: pointer;
 
   .item {
     &-title {

@@ -1,10 +1,16 @@
 <md-toolbar class="md-primary navbar">
   <div class="md-toolbar-tools">
-    <md-button ng-click="$root.toggleSideNav()" class="md-icon-button" aria-label="Menu">
+    <md-button class="md-icon-button" aria-label="Back" ng-if="!appCtrl.$state.includes('main')" ng-click="$root.navigateBack()">
+      <i class="zmdi zmdi-hc-2x zmdi-arrow-left"></i>
+    </md-button>
+
+    <h1 ng-if="!appCtrl.$state.includes('main')" flex class="md-title">Shibuya crossing</h1>
+
+    <md-button ng-if="appCtrl.$state.includes('main')" ng-click="$root.toggleSideNav()" class="md-icon-button" aria-label="Menu">
       <md-icon md-svg-icon="images/ic_menu_white_24px.svg"></md-icon>
     </md-button>
 
-    <md-input-container md-no-float class="md-block" flex>
+    <md-input-container ng-if="appCtrl.$state.includes('main')" md-no-float class="md-block" flex>
       <input ng-model="searchText" placeholder="Search">
     </md-input-container>
   </div>

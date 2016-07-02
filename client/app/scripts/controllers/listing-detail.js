@@ -12,7 +12,7 @@ angular.module('clientApp')
 
   $stateProvider
   .state('listing-detail', {
-    url: '/detail/:placeId',
+    url: '/detail/:id',
     templateUrl: 'views/listing-detail.html',
     controller: 'ListingDetailCtrl as ctrl'
   });
