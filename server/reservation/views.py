@@ -122,6 +122,7 @@ def xml_generate_sorry(pk):
 
     return xml
 
+
 @csrf_exempt
 def reservation(request, pk):
     xml = xml_generate(pk=pk)
@@ -158,8 +159,16 @@ def gather(request, pk):
 
 def twilio_call(request):
 
+    if request.method is not 'POST':
+        return HttpResponse(status=400)
+
     account_sid = "AC9fd29fc278859337de38574c25843043"  # Your Account SID from www.twilio.com/console
     auth_token = "22388542078a89a05e264409a2ef0055"  # Your Auth Token from www.twilio.com/console
+
+    required = ['name', 'npeople', 'date', 'time', 'lang']
+    for req in required:
+        if req not in request.POST:
+            return JSONResponse(status=400)
 
     name = request.GET.get('name')
     num_people = request.GET.get('npeople')
@@ -191,3 +200,37 @@ def twilio_call(request):
     serializer = CallSerializer(call_info)
     return JSONResponse(serializer.data)
     # return HttpResponse("We are making the reservation call for you.")
+
+
+@csrf_exempt
+def call_detail(request, pk):
+
+    print('got request')
+
+    if request.method != 'GET':
+        print(request.method)
+        return HttpResponse(status=403)
+
+    try:
+        call = Call.objects.get(pk=pk)
+    except Call.DoesNotExist:
+        return HttpResponse(status=404)
+
+    serializer = CallSerializer(call)
+    response = JSONResponse(serializer.data)
+    return response
+
+
+@csrf_exempt
+def check_status(request, pk):
+
+    if request.method != 'GET':
+        return HttpResponse(status=403)
+
+    try:
+        call = Call.objects.get(pk=pk)
+    except Call.DoesNotExist:
+        return HttpResponse(status=404)
+
+    status = {call.status: Call.STATUS_CHOICES[call.status]}
+    return JSONResponse(status)

@@ -19,13 +19,17 @@ class Call(models.Model):
     DECLINED = 0
     FAILED = -1
 
-    STATUS_CHOICES = (
+    _STATUS_CHOICES = (
         (ON_CALLING, 'We are in the middle of the call to the restaurant.'),
         (ACCEPTED, 'Reservation has been accepted.'),
         (DECLINED, 'Reservation has been declined.'),
         (FAILED, 'The call is not successful.'),
         (READY, 'We are ready to make the call.')
     )
+
+    STATUS_CHOICES = {}
+    for status in _STATUS_CHOICES:
+        STATUS_CHOICES[status[0]] = status[1]
 
     ENGLISH = 0
     JAPANESE = 1
@@ -36,7 +40,7 @@ class Call(models.Model):
     )
 
     status = models.IntegerField(
-        choices=STATUS_CHOICES,
+        choices=_STATUS_CHOICES,
         default=READY
     )
 
