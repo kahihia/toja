@@ -45,33 +45,25 @@ def XML_generate(pk):
 
     if language == Call.JAPANESE:
         if num_people == 1:
-            num_people_text = 'ひとり'
+            num_people_text = u'ひとり'
         elif num_people == 2:
-            num_people_text = 'ひとり'
+            num_people_text = u'ひとり'
         else:
-            num_people_text = num_people + '人'
-
-        # xml = '<?xml version="1.0" encoding="UTF-8"?>' \
-        #       '<Response> ' \
-        #       '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="{0}"> ' \
-        #       '<Say language="ja-JP"> わたしは、ろぼっとです。にほんごをはなせない{1}さんのかわりにでんわしています。' \
-        #       '{1}さんは、{2}、{3}じから、 {4}のよやくをしたいです。' \
-        #       'よやくかのうなばあいは、１をおしてください。' \
-        #       'よやくできないばあいは、２をおしてください。' \
-        #       'もういちど、ききなおすばあいは、５をおしてください' \
-        #       '</Say> ' \
-        #       '</Gather> ' \
-        #       '<Say>我々は、任意の入力を受信しませんでした。 さようなら！</Say> ' \
-        #       '</Response>'.format(url, name, date, time, num_people_text)
+            num_people_text = num_people + u'人'
 
         xml = '<?xml version="1.0" encoding="UTF-8"?>' \
               '<Response> ' \
               '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="{0}"> ' \
-              '<Say language="ja-JP"> わたしは {1}'\
+              u'<Say language="ja-JP"> わたしは、ろぼっとです。にほんごをはなせない{1}さんのかわりにでんわしています。' \
+              u'{1}さんは、{2}、{3}じから、 {4}のよやくをしたいです。' \
+              u'よやくかのうなばあいは、１をおしてください。' \
+              u'よやくできないばあいは、２をおしてください。' \
+              u'もういちど、ききなおすばあいは、５をおしてください' \
               '</Say> ' \
               '</Gather> ' \
-              '<Say>我々は、任意の入力を受信しませんでした。 さようなら！</Say> ' \
-              '</Response>'.format(url,num_people_text)
+              u'<Say>我々は、任意の入力を受信しませんでした。 さようなら！</Say> ' \
+              '</Response>'.format(url, name, date, time, num_people_text)
+
     else:
         xml = '<?xml version="1.0" encoding="UTF-8"?>' \
               '<Response> ' \
