@@ -22,6 +22,7 @@ DEBUG = True
 
 
 ALLOWED_HOSTS = []
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
@@ -35,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'venues.apps.VenuesConfig',
+    'places.apps.PlacesConfig',
     'reservation.apps.ReservationConfig',
     'corsheaders',
 ]

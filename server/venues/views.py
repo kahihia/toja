@@ -1,21 +1,11 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
+
 
 from venues.models import Venue, Category
 from venues.serializers import VenueSerializer, CategorySerializer
 
-
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
-
+from server.requests import JSONResponse
 
 @csrf_exempt
 def venue_list(request):
@@ -23,8 +13,8 @@ def venue_list(request):
     List all venues.
     """
     if request.method == 'GET':
-        snippets = Venue.objects.all()
-        serializer = VenueSerializer(snippets, many=True)
+        venues = Venue.objects.all()
+        serializer = VenueSerializer(venues, many=True)
         return JSONResponse(serializer.data)
 
     return JSONResponse(status=403)

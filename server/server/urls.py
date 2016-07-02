@@ -63,6 +63,7 @@ router.register(r'calls-api', CallViewSet)
 urlpatterns = [
     url(r'^', include('venues.urls')),
     url(r'^', include('reservation.urls')),
+    url(r'^', include('places.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
