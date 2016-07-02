@@ -6,7 +6,7 @@ import argparse
 import django
 django.setup()
 
-from venues.models import Venue
+from venues.models import Venue, Category
 
 
 def load_venues(input_filename):
@@ -34,8 +34,8 @@ def assign_value(object_from, object_to, property, keylist):
 def json_to_venue(item):
 
     venue = Venue()
-    venue.images = '[https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg,'\
-        + 'https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg]'
+    venue.images = '["https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg",'\
+        + '"https://uds.gnst.jp/rest/img/mkej3x2b0000/s_00n2.jpg"]'
 
     value_mapping = {
         'name': ['name', 'name'],
@@ -63,10 +63,27 @@ def json_to_venue(item):
             print('Could not get key: ' + key + ': ' + str(value_mapping[key]))
             setattr(venue, key, '')
 
-    from pprint import pprint
-    #pprint(vars(venue))
-
     return venue
+
+
+def add_categories(venue, js_obj):
+
+    categories = js_obj['categories']['category_name_l']
+    categories.extend(js_obj['categories']['category_name_s'])
+    categories = [category.split()[0].lower() for category in categories if isinstance(category, unicode)]
+    categories = list(set(categories))
+
+    for category in categories:
+
+        stored_category = None
+
+        try:
+            stored_category = Category.objects.get(name=category)
+        except Category.DoesNotExist:
+            stored_category = Category(name=category)
+            stored_category.save()
+
+        venue.categories.add(stored_category)
 
 
 if __name__ == '__main__':
@@ -78,9 +95,15 @@ if __name__ == '__main__':
     if args.delete:
         # Drop all objects before importing.
         all_objects = Venue.objects.all()
-        print('Deleting ' + str(len(all_objects)) + '.')
+        print('Deleting ' + str(len(all_objects)) + 'venues.')
         all_objects.delete()
         print('Now have ' + str(len(Venue.objects.all())) + ' venues.')
+
+        # Drop all categories.
+        all_categories = Category.objects.all()
+        print('Deleting ' + str(len(all_categories)) + 'categories.')
+        all_categories.delete()
+        print('Now have ' + str(len(Category.objects.all())) + ' categories.')
 
     input_filename = 'dump.json'
     objects = load_venues(input_filename)
@@ -98,6 +121,8 @@ if __name__ == '__main__':
         else:
             ids[venue.gurunavi_id] = 1
             venue.save()
+
+            add_categories(venue, item)
 
     print(len(ids))
 

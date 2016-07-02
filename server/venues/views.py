@@ -118,14 +118,15 @@ def category_venues(request, pk):
     Retrieve venues catering to requested category.
     """
     try:
-        category = Venue.objects.get(pk=pk)
-    except Venue.DoesNotExist:
+        print('finding ' + pk)
+        category = Category.objects.get(pk=pk)
+    except Category.DoesNotExist:
         return HttpResponse(status=404)
 
-
+    venues = Venue.objects.filter(categories__pk=pk)
 
     if request.method == 'GET':
-        serializer = VenueSerializer(snippet)
+        serializer = VenueSerializer(venues, many=True)
         return JSONResponse(serializer.data)
 
     return JSONResponse(status=403)
