@@ -17,7 +17,6 @@ def reservation(request):
                 '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="http://47.88.212.198:8000/gather/"> ' \
                     '<Say language="en-US"> Hi, this is an automated call from Toja. We want to reserve a table for two people at 7PM today. ' \
                                             'Please press one to accept the reservation, press zero to decline! Or press 5 to listen to the message again. ' \
-                                            'Please finish with the star key. ' \
                     '</Say> ' \
                 '</Gather> ' \
                 '<Say>We did not receive any input. Goodbye!</Say> ' \
@@ -49,7 +48,6 @@ def gather(request):
               '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="http://47.88.212.198:8000/gather/"> ' \
               '<Say language="en-US"> Hi, this is an automated call from Toja. We want to reserve a table for two people at 7PM today. ' \
               'Please press one to accept the reservation, press zero to decline! Or press 5 to listen to the message again. ' \
-              'Please finish with the star key. ' \
               '</Say> ' \
               '</Gather> ' \
               '<Say>We did not receive any input. Goodbye!</Say> ' \
