@@ -6,9 +6,9 @@
 
     <h1 ng-if="!appCtrl.$state.includes('main')" flex class="md-title">Shibuya crossing</h1>
 
-    <md-button ng-if="appCtrl.$state.includes('main')" ng-click="$root.toggleSideNav()" class="md-icon-button" aria-label="Menu">
+    <!-- <md-button ng-if="appCtrl.$state.includes('main')" ng-click="$root.toggleSideNav()" class="md-icon-button" aria-label="Menu">
       <md-icon md-svg-icon="images/ic_menu_white_24px.svg"></md-icon>
-    </md-button>
+    </md-button> -->
 
     <md-input-container ng-if="appCtrl.$state.includes('main')" md-no-float class="md-block" flex>
       <input ng-model="searchText" placeholder="Search">
