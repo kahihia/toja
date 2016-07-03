@@ -33,8 +33,7 @@ angular
   $urlRouterProvider.otherwise('/');
 
   uiGmapGoogleMapApiProvider.configure({
-    key: 'AIzaSyBwhccxQP4Au0m2QgiGXbqMEDr54728uTo',
-    v: '3.20', //defaults to latest 3.X anyhow
+    v: '3.2', //defaults to latest 3.X anyhow
     libraries: 'weather,geometry,visualization'
   });
 })

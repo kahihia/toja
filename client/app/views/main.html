@@ -13,7 +13,7 @@
     </md-tab>
     <md-tab label="Foods">
       <md-content class="md-padding">
-        <md-select ng-model="ctrl.foodTab.priceRange" ng-if="filteredVenues.length > 0">
+        <md-select aria-label="Price range" ng-model="ctrl.foodTab.priceRange" ng-if="filteredVenues.length > 0">
           <md-option ng-repeat="option in ctrl.foodTab.priceRangeOptions" ng-value="option">
             {{ option.label }}
           </md-option>
