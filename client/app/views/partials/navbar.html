@@ -8,12 +8,12 @@
       {{ $root.navTitle }}
     </h1>
 
-    <!-- <md-button ng-if="appCtrl.$state.includes('main')" ng-click="$root.toggleSideNav()" class="md-icon-button" aria-label="Menu">
-      <md-icon md-svg-icon="images/ic_menu_white_24px.svg"></md-icon>
-    </md-button> -->
-
     <md-input-container ng-if="appCtrl.$state.includes('main')" md-no-float class="md-block" flex>
       <input ng-model="$root.searchText" placeholder="Search">
     </md-input-container>
+
+    <md-button ng-click="$root.navigateTo('reservations')" class="md-icon-button" aria-label="Menu">
+      <i class="zmdi zmdi-hc-2x zmdi-layers"></i>
+    </md-button>
   </div>
 </md-toolbar>

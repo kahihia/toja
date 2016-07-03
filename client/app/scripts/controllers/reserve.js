@@ -26,7 +26,7 @@ angular.module('clientApp')
 .controller('ReserveCtrl', function (
   $rootScope, $window, $stateParams, $localStorage, $state, Reservation, venue
 ) {
-  var self = this;
+  var venueId, self = this;
 
   $rootScope.navTitle = 'Make reservation';
 
@@ -45,6 +45,9 @@ angular.module('clientApp')
   };
 
   this.venue = venue;
+  this.venue.$promise.then(function() {
+    venueId = self.venue.id;
+  });
 
   this.reserve = function() {
     this.reservationDate.setHours(this.reservationTime.getHours());
@@ -55,7 +58,7 @@ angular.module('clientApp')
     this.venue.$reserve(this.reservation).then(function(data) {
       console.debug('Reservation has been made', data);
       var call = data;
-      call.venueId = self.venue.id;
+      call.venueId = venueId;
 
       Reservation.save(call);
       $state.go('reservations');
