@@ -1,12 +1,13 @@
-# client
-
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.15.1.
+# Toja Client
 
 ## Build & development
 
 Run `grunt` for building and `grunt serve` for preview.
 
-## Testing
+## Contributors
 
-Running `grunt test` will run the unit tests with karma.
+Thinh Pham (nhim175@gmail.com)
+
+## License
+
+MIT
