@@ -5,4 +5,4 @@ from models import Call
 class CallSerializer(serializers.ModelSerializer):
     class Meta:
         model = Call
-        fields = ('id', 'name', 'num_people', 'date', 'time', 'res_num', 'status', 'language_opt')
+        fields = ('id', 'name', 'num_people', 'date_time', 'res_name', 'res_phone', 'cus_phone', 'status')
