@@ -2,8 +2,8 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 
-from venues.models import Venue, Category
-from venues.serializers import VenueSerializer, CategorySerializer
+from venues.models import Venue, Category, Food
+from venues.serializers import VenueSerializer, CategorySerializer, FoodSerializer
 
 from server.requests import JSONResponse, haversine
 
@@ -49,6 +49,26 @@ def category_venues(request, pk):
 
     if request.method == 'GET':
         serializer = VenueSerializer(venues, many=True)
+        return JSONResponse(serializer.data)
+
+    return JSONResponse(status=403)
+
+
+class FoodList(generics.ListAPIView):
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+
+
+@csrf_exempt
+def food_at(request, pk):
+    try:
+        venue = Venue.objects.get(pk=pk)
+    except Venue.DoesNotExist:
+        return HttpResponse(status=404)
+
+    foods = Food.objects.filter(venue__pk=pk)
+    if request.method == 'GET':
+        serializer = FoodSerializer(foods, many=True)
         return JSONResponse(serializer.data)
 
     return JSONResponse(status=403)
