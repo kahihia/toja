@@ -287,7 +287,7 @@ def check_status(request, pk):
 def get_twilio_call_status(request, pk):
     call_info = Call.objects.get(pk=pk)
     status = request.POST.get('CallStatus')
-    if status == 'completed' and call_info.status == Call.READY:
+    if status == 'completed' and call_info.status == Call.ON_CALLING:
         call_info.status = Call.FAILED
     elif status in ['busy', 'failed', 'no-answer', 'canceled']:
         call_info.status = Call.FAILED
