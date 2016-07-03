@@ -18,6 +18,6 @@ angular.module('clientApp')
     };
     console.debug('Current location:', $rootScope.currentLocation);
   }).catch(function(error) {
-    console.debug('Cannot get current location');
+    console.debug('Cannot get current location', error);
   });
 });
