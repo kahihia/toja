@@ -2,9 +2,9 @@
   <md-tabs md-dynamic-height md-border-bottom>
     <md-tab label="Places to visit">
       <md-content class="md-padding">
-        <listing-item item="item" ui-sref="place-detail({
+        <listing-item item="item" type="'attraction'" ui-sref="place-detail({
           id: item.id
-        })" ng-repeat="item in (ctrl.venues | limitTo:ctrl.venueLimit)"></listing-item>
+        })" ng-repeat="item in (ctrl.attractions | limitTo:ctrl.attractionLimit)"></listing-item>
       </md-content>
     </md-tab>
     <md-tab label="Foods">
@@ -15,7 +15,7 @@
           </md-option>
         </md-select>
 
-        <listing-item item="item" ui-sref="restaurant-detail({
+        <listing-item item="item" type="'venue'" ui-sref="restaurant-detail({
           id: item.id
         })" ng-repeat="item in (ctrl.venues | priceRange:ctrl.foodTab.priceRange | limitTo:ctrl.venueLimit)"></listing-item>
       </md-content>

@@ -18,12 +18,15 @@ angular.module('clientApp')
     resolve: {
       venues: function(Venue) {
         return Venue.query();
+      },
+      attractions: function(Attraction) {
+        return Attraction.query();
       }
     }
   });
 
 })
-.controller('MainCtrl', function (venues) {
+.controller('MainCtrl', function (venues, attractions) {
   var foodPriceRangeOptions = [
     {
       min: 0,
@@ -53,6 +56,8 @@ angular.module('clientApp')
   };
 
   this.venues = venues;
+  this.attractions = attractions;
 
   this.venueLimit = 5;
+  this.attractionLimit = 5;
 });
