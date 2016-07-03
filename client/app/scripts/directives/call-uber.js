@@ -7,7 +7,7 @@
  * # callUber
  */
 angular.module('clientApp')
-  .directive('callUber', function ($mdDialog, $window, Uber) {
+  .directive('callUber', function ($mdDialog, $window, $rootScope, Uber) {
     return {
       templateUrl: 'views/directives/call-uber.html',
       restrict: 'E',
@@ -19,13 +19,22 @@ angular.module('clientApp')
         scope.callUber = function(event) {
           event.preventDefault();
 
-          var url = Uber.generateRideRequestUrl({
-            dropoff: {
-              name: scope.place.name,
-              latitude: scope.place.latitude,
-              longitude: scope.place.longitude
-            }
-          });
+          var params = {};
+          params.dropoff = {
+            name: scope.place.name,
+            latitude: scope.place.latitude,
+            longitude: scope.place.longitude
+          };
+
+          if ($rootScope.currentLocation) {
+            params.pickup = {
+              name: 'Current location',
+              latitude: $rootScope.currentLocation.latitude,
+              longitude: $rootScope.currentLocation.longitude
+            };
+          }
+
+          var url = Uber.generateRideRequestUrl(params);
           $window.location.href = url;
         };
       }
