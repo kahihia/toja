@@ -286,5 +286,5 @@ def check_status(request, pk):
 @csrf_exempt
 def get_twilio_call_status(request, pk):
     call_info = Call.objects.get(pk=pk)
-    status = request.POST.get('StatusCallback')
+    status = request.POST.get('CallStatus')
     return HttpResponse(status)
