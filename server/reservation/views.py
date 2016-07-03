@@ -252,7 +252,10 @@ def twilio_call(request):
     client = TwilioRestClient(account_sid, auth_token)
 
     try:
-        call = client.calls.create(url=url, to=res_phone, from_=secrets.TWILIO_PHONE)
+        call = client.calls.create(url=url, to=res_phone, from_=secrets.TWILIO_PHONE,
+                                   status_callback="http://tjr.tonny.me/callingstatus/" + str(pk) + '/',
+                                   status_callback_method="POST",
+                                   )
     except TwilioRestException as e:
         print(e)
 
@@ -279,3 +282,9 @@ def check_status(request, pk):
 
     status = {call.status: Call.STATUS_CHOICES[call.status]}
     return JSONResponse(status)
+
+@csrf_exempt
+def get_twilio_call_status(request, pk):
+    call_info = Call.objects.get(pk=pk)
+    status = request.POST.get('StatusCallback')
+    return HttpResponse(status)
