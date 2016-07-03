@@ -4,12 +4,14 @@
       <md-content class="md-padding">
         <listing-item item="item" type="'attraction'" ui-sref="place-detail({
           id: item.id
-        })" ng-repeat="item in (ctrl.attractions | limitTo:ctrl.attractionLimit)"></listing-item>
+        })" ng-repeat="item in filteredAttractions = (ctrl.attractions | listingSearch:$root.searchText | limitTo:ctrl.attractionLimit)"></listing-item>
+
+        <p ng-if="filteredAttractions.length == 0">No attractions found.</p>
       </md-content>
     </md-tab>
     <md-tab label="Foods">
       <md-content class="md-padding">
-        <md-select ng-model="ctrl.foodTab.priceRange">
+        <md-select ng-model="ctrl.foodTab.priceRange" ng-if="filteredVenues.length > 0">
           <md-option ng-repeat="option in ctrl.foodTab.priceRangeOptions" ng-value="option">
             {{ option.label }}
           </md-option>
@@ -17,7 +19,9 @@
 
         <listing-item item="item" type="'venue'" ui-sref="restaurant-detail({
           id: item.id
-        })" ng-repeat="item in (ctrl.venues | priceRange:ctrl.foodTab.priceRange | limitTo:ctrl.venueLimit)"></listing-item>
+        })" ng-repeat="item in filteredVenues = (ctrl.venues | listingSearch:$root.searchText | priceRange:ctrl.foodTab.priceRange | limitTo:ctrl.venueLimit)"></listing-item>
+
+        <p ng-if="filteredVenues.length == 0">No venues found.</p>
       </md-content>
     </md-tab>
   </md-tabs>
