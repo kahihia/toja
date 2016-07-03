@@ -68,6 +68,7 @@ def xml_generate(pk):
     date_now = datetime.datetime.now().date()
 
     cus_phone = call_info.cus_phone
+    cus_phone = " ".join(cus_phone)
 
     if language == Call.JAPANESE:
         if num_people == 1:
@@ -114,7 +115,7 @@ def xml_generate(pk):
         else:
             day = day + 'th'
 
-        message_datetime = month_text + day + 'at' + hour + ':' + minute
+        message_datetime = month_text + day + ' at ' + hour + ' o\'clock and ' + minute ' minutes '
         # Check if today or tomorrow or other date
         if date_res == date_now:
             message_datetime == 'today' + message_datetime
