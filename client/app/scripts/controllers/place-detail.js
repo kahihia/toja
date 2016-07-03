@@ -14,10 +14,17 @@ angular.module('clientApp')
   .state('place-detail', {
     url: '/place/:id',
     templateUrl: 'views/place-detail.html',
-    controller: 'PlaceDetailCtrl as ctrl'
+    controller: 'PlaceDetailCtrl as ctrl',
+    resolve: {
+      attraction: function($stateParams, Attraction) {
+        return Attraction.get({id: $stateParams.id});
+      }
+    }
   });
 
 })
-.controller('PlaceDetailCtrl', function () {
-  this.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+.controller('PlaceDetailCtrl', function (attraction) {
+  this.map = { zoom: 15 };
+
+  this.attraction = attraction;
 });

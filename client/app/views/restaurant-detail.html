@@ -1,7 +1,7 @@
 <md-content id="listing-detail">
   <ks-swiper-container ng-if="ctrl.venue.images.length > 0" loop="false" slides-per-view="1" space-between="5" pagination-clickable="false">
       <ks-swiper-slide class="swiper-slide" ng-repeat="url in ctrl.venue.images track by $index">
-        <div class="photo-slide" style="background-image: url({{ url }})">
+        <div class="photo-slide" style="background-image: url('{{ url }}')">
         </div>
       </ks-swiper-slide>
   </ks-swiper-container>
