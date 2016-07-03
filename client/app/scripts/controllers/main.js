@@ -26,7 +26,9 @@ angular.module('clientApp')
   });
 
 })
-.controller('MainCtrl', function (venues, attractions) {
+.controller('MainCtrl', function ($scope, $rootScope, Venue, venues, attractions) {
+  var self = this;
+
   var foodPriceRangeOptions = [
     {
       min: 0,
@@ -52,7 +54,8 @@ angular.module('clientApp')
 
   this.foodTab = {
     priceRangeOptions: foodPriceRangeOptions,
-    priceRange: foodPriceRangeOptions[0]
+    priceRange: foodPriceRangeOptions[0],
+    show: 'all'
   };
 
   this.venues = venues;
@@ -69,4 +72,20 @@ angular.module('clientApp')
       this.venueLimit += 5;
     }
   };
+
+  $scope.$watch('ctrl.foodTab.show', function(newValue, oldValue) {
+    if (newValue && oldValue && newValue !== oldValue) {
+      if (newValue === 'all') {
+        console.debug('Showing all locations');
+        self.venues = Venue.query();
+      } else if (newValue === 'nearby') {
+        console.debug('Showing nearby locations');
+        if (!$rootScope.currentLocation) {
+          self.venues = [];
+        } else {
+          self.venues = Venue.byLocation($rootScope.currentLocation);
+        }
+      }
+    }
+  });
 });

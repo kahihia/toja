@@ -28,7 +28,7 @@ angular
   'angular-inview',
   'geolocation'
 ])
-.constant('API_END_POINT', 'http://10.201.120.132:8000')
+.constant('API_END_POINT', 'http://47.88.131.184')
 
 .config(function ($urlRouterProvider, uiGmapGoogleMapApiProvider) {
   $urlRouterProvider.otherwise('/');

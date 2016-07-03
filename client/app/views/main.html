@@ -13,6 +13,25 @@
     </md-tab>
     <md-tab label="Foods">
       <md-content class="md-padding">
+        <section layout="row" layout-align="center center">
+          <md-button
+            class="groupX left md-raised"
+            ng-class="{
+            'md-primary': ctrl.foodTab.show == 'all'
+            }"
+            ng-click="ctrl.foodTab.show='all'">
+            All
+          </md-button>
+          <md-button
+            class="groupX right md-raised"
+            ng-click="ctrl.foodTab.show='nearby'"
+            ng-class="{
+            'md-primary': ctrl.foodTab.show == 'nearby'
+            }">
+            Near by
+          </md-button>
+        </section>
+
         <md-select aria-label="Price range" ng-model="ctrl.foodTab.priceRange" ng-if="filteredVenues.length > 0">
           <md-option ng-repeat="option in ctrl.foodTab.priceRangeOptions" ng-value="option">
             {{ option.label }}
