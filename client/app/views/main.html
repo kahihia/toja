@@ -32,7 +32,7 @@
           </md-button>
         </section>
 
-        <md-select aria-label="Price range" ng-model="ctrl.foodTab.priceRange" ng-if="filteredVenues.length > 0">
+        <md-select aria-label="Price range" ng-model="ctrl.foodTab.priceRange" ng-if="!(filteredVenues.length == 0 && ctrl.selectedTabIndex == 0)">
           <md-option ng-repeat="option in ctrl.foodTab.priceRangeOptions" ng-value="option">
             {{ option.label }}
           </md-option>

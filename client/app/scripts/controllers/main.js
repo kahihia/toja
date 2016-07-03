@@ -77,7 +77,11 @@ angular.module('clientApp')
     if (newValue && oldValue && newValue !== oldValue) {
       if (newValue === 'all') {
         console.debug('Showing all locations');
+        $rootScope.showBusy();
         self.venues = Venue.query();
+        self.venues.$promise.finally(function() {
+          $rootScope.hideBusy();
+        });
       } else if (newValue === 'nearby') {
         console.debug('Showing nearby locations');
         if (!$rootScope.currentLocation) {
