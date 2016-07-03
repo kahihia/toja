@@ -32,6 +32,10 @@ angular.module('clientApp')
 
   this.venue = venue;
 
+  this.venue.$promise.then(function() {
+    $rootScope.navTitle = venue.name;
+  });
+
   this.nearByVenues = [];
 
   if ($rootScope.currentLocation) {

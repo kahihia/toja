@@ -2,7 +2,7 @@
   <p><b>Reserve for:</b> {{ ctrl.venue.name }}<br>
   <b>Address:</b> {{ ctrl.venue.address }}</p>
 
-  <form name="ctrl.reservationForm">
+  <form name="ctrl.reservationForm" ng-submit="ctrl.reserve()">
     <div layout="column">
       <md-input-container>
         <label>Name</label>
@@ -10,8 +10,13 @@
       </md-input-container>
 
       <md-input-container>
+        <label>Phone number</label>
+        <input ng-model="ctrl.reservation.cusphone" type="tel" required>
+      </md-input-container>
+
+      <md-input-container>
         <label>Number of Guest</label>
-        <input ng-model="ctrl.reservation.guestNumber" type="tel" required>
+        <input ng-model="ctrl.reservation.npeople" type="tel" required>
       </md-input-container>
 
       <div layout="row">
@@ -24,7 +29,7 @@
             type="text"
             id="date"
             placeholder="Date"
-            ng-model="ctrl.reservation.date"
+            ng-model="ctrl.reservationDate"
             class=" md-input"
             required>
         </md-input-container>
@@ -40,14 +45,14 @@
             placeholder="Time"
             min-date="ctrl.minDate"
             format="hh:mm a"
-            ng-model="ctrl.reservation.time"
+            ng-model="ctrl.reservationTime"
             class=" md-input"
             required>
         </md-input-container>
       </div>
 
       <md-input-container layout="row">
-        <md-button flex class="md-raised md-primary">Reserve</md-button>
+        <md-button type="submit" flex class="md-raised md-primary">Reserve</md-button>
       </md-input-container>
     </div>
   </form>

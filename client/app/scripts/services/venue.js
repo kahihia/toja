@@ -83,6 +83,11 @@ angular.module('clientApp')
             return records;
           }
         }
+      },
+
+      reserve: {
+        method: 'GET',
+        url: API_END_POINT + '/call'
       }
     });
   });
