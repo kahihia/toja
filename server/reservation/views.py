@@ -26,7 +26,8 @@ DECLINE_XML = ['<?xml version="1.0" encoding="UTF-8"?> '
 
                '<?xml version="1.0" encoding="UTF-8"?> '
                '<Response>'
-               u'<Say language="ja-JP"> わかりました。どうもありがとうございます。また、りようさせていただきます。</Say>'
+               u'<Say language="ja-JP"> 了解いたしました。ご確認ありがとうございます。また、予約がございましたら、'
+               u'もう一度ご連絡させていただきます。</Say>'
                '</Response>'
                ]
 
@@ -146,10 +147,10 @@ def xml_generate_sorry(pk):
     if call_info.language_opt == Call.JAPANESE:
         xml = '<Response> ' \
               '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="{0}">' \
-              u'<Say language="ja-JP"> あなたは間違った番号を選びました！もう一度お選びください。 ' \
+              u'<Say language="ja-JP"> もう一度正しい番号をお選びください！ ' \
               u'よやくかのうなばあいは、１をおしてください。' \
               u'よやくできないばあいは、２をおしてください。' \
-              u'もういちど、ききなおすばあいは、５をおしてください' \
+              u'もういちど、ききなおしたいばあいは、５をおしてください' \
               '</Say> ' \
               '</Gather> ' \
               u'<Say>我々は、任意の入力を受信しませんでした。 さようなら！ </Say> ' \
