@@ -293,7 +293,7 @@ def get_twilio_call_status(request, pk):
         call_info.status = Call.FAILED
     elif status in ['ringing', 'in-progress']:
         call_info.status = Call.ON_CALLING
-    else:
+    elif status == 'queued':
         call_info.status = Call.READY
     call_info.save()
     serializer = CallSerializer(call_info)
