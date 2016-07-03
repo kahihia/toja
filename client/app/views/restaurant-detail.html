@@ -36,19 +36,21 @@
     </ui-gmap-google-map>
   </md-content>
 
-  <md-content class="near-by" layout-padding>
+  <md-content class="near-by" layout-padding ng-if="ctrl.nearByVenues.length > 0">
     <h2 class="md-title">Near by Restaurants</h2>
 
-    <md-card>
+    <md-card ng-if="venue.id != ctrl.venue.id" ng-repeat="venue in ctrl.nearByVenues" ui-sref="restaurant-detail({
+      id: venue.id
+    })">
       <md-card-title>
         <md-card-title-media>
-          <div class="md-media-md card-media" style="background-image: url(https://material.angularjs.org/latest/img/washedout.png)">
+          <div class="md-media-md card-media" style="background-image: url('{{ venue.images[0] }}')">
           </div>
         </md-card-title-media>
         <md-card-title-text>
           <div class="item-info">
-            <span class="md-headline">Robot Cafe</span>
-            <span class="md-subhead">Shinjuku</span>
+            <span class="md-title">{{ venue.name }}</span>
+            <span class="md-subhead">{{ venue.description | stripTags | limitTo:100 }}...</span>
           </div>
         </md-card-title-text>
       </md-card-title>
@@ -57,12 +59,9 @@
           <i class="zmdi zmdi-star-outline zmdi-hc-2x"></i>
         </md-button>
         <md-button
-          class="md-raised md-primary reserve-btn"
-          ui-sref="reserve({id: 'anything'})">
-          Reserve
+          class="md-raised md-primary reserve-btn">
+          View
         </md-button>
-
-        <call-uber></call-uber>
       </md-card-actions>
     </md-card>
   </md-content>

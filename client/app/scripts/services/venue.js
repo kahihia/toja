@@ -56,6 +56,33 @@ angular.module('clientApp')
             return record;
           }
         }
+      },
+
+      byLocation: {
+        method: 'GET',
+        isArray: true,
+        url: API_END_POINT + '/venues/loc/:latitude/:longitude',
+        transformResponse: function(data) {
+          var records = angular.fromJson(data);
+
+          if (!records) {
+            return [];
+          }
+
+          // TODO: return Array of images from server side
+          // instead of String
+          if (angular.isArray(records)) {
+            records.map(function(record) {
+              if (record.images && record.images !== '') {
+                record.images = JSON.parse(record.images);
+              }
+              return record;
+            });
+            return records;
+          } else {
+            return records;
+          }
+        }
       }
     });
   });

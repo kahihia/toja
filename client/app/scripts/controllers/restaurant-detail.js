@@ -23,8 +23,31 @@ angular.module('clientApp')
   });
 
 })
-.controller('RestaurantDetailCtrl', function (venue) {
+.controller('RestaurantDetailCtrl', function ($scope, $rootScope, Venue, venue) {
+  var unwatchLocation;
+
+  var self = this;
+
   this.map = { zoom: 15 };
 
   this.venue = venue;
+
+  this.nearByVenues = [];
+
+  if ($rootScope.currentLocation) {
+    this.nearByVenues = Venue.byLocation($rootScope.currentLocation);
+  } else {
+    unwatchLocation = $rootScope.$watch('currentLocation', function(value) {
+      if (value) {
+        self.nearByVenues = Venue.byLocation($rootScope.currentLocation);
+      }
+    });
+  }
+
+  $scope.$on('$destroy', function() {
+    if (unwatchLocation) {
+      unwatchLocation();
+    }
+  });
+
 });
