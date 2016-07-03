@@ -68,7 +68,7 @@ def xml_generate(pk):
     date_now = datetime.datetime.now().date()
 
     cus_phone = call_info.cus_phone
-    cus_phone = " ".join(cus_phone)
+    cus_phone = ". ".join(cus_phone)
 
     if language == Call.JAPANESE:
         if num_people == 1:
