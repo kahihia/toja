@@ -17,6 +17,7 @@ from models import Call
 from venues.models import Venue
 from serializers import CallSerializer
 
+from server import secrets
 
 DECLINE_XML = ['<?xml version="1.0" encoding="UTF-8"?> '
                '<Response>'
@@ -50,7 +51,7 @@ class XMLResponse(HttpResponse):
 def xml_generate(pk):
 
     call_info = Call.objects.get(pk=pk)
-    url = 'http://47.88.212.198:8000/gather/' + str(pk) + '/'
+    url = 'http://tjr.tonny.me/gather/' + str(pk) + '/'
     num_people = call_info.num_people
     dt = call_info.date_time
     name = call_info.name
@@ -138,7 +139,7 @@ def xml_generate(pk):
 
 def xml_generate_sorry(pk):
     call_info = Call.objects.get(pk=pk)
-    url = 'http://47.88.212.198:8000/gather/' + str(pk) + '/'
+    url = 'http://tjr.tonny.me/gather/' + str(pk) + '/'
 
     if call_info.language_opt == Call.JAPANESE:
         xml = '<Response> ' \
@@ -168,7 +169,7 @@ def xml_generate_sorry(pk):
 @csrf_exempt
 def reservation(request, pk):
     xml = xml_generate(pk=pk)
-    if request.method == "GET":
+    if request.method == "POST":
         call_info = Call.objects.get(pk=pk)
         call_info.status = Call.ON_CALLING
         call_info.save()
@@ -205,8 +206,8 @@ def twilio_call(request):
 #        return HttpResponse(status=400)
 
 
-    account_sid = "AC9fd29fc278859337de38574c25843043"  # Your Account SID from www.twilio.com/console
-    auth_token = "22388542078a89a05e264409a2ef0055"  # Your Auth Token from www.twilio.com/console
+    account_sid = secrets.TWILIO_ACCOUNT_SID  # Your Account SID from www.twilio.com/console
+    auth_token = secrets.TWILIO_ACCOUNT_SECRET  # Your Auth Token from www.twilio.com/console
 
     required = ['name', 'npeople', 'datetime', 'resid', 'cusphone', 'lang']
     for req in required:
@@ -227,7 +228,7 @@ def twilio_call(request):
 
     shop_info = Venue.objects.get(pk = shopid)
     #res_phone = shop_info.phone
-    res_phone = "+819071931989"
+    res_phone = secrets.TEST_PHONE
     res_name = shop_info.name
 
     call_info = Call()
@@ -244,11 +245,11 @@ def twilio_call(request):
     pk = call_info.pk
 
     # Make request to Twilio.
-    url = "http://47.88.212.198:8000/reservation/" + str(pk) + '/'
+    url = "http://tjr.tonny.me/reservation/" + str(pk) + '/'
     client = TwilioRestClient(account_sid, auth_token)
 
     try:
-        call = client.calls.create(url=url, to=res_phone, from_="+81345304650")
+        call = client.calls.create(url=url, to=res_phone, from_=secrets.TWILIO_PHONE)
     except TwilioRestException as e:
         print(e)
 
