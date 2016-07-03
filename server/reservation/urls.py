@@ -18,6 +18,6 @@ urlpatterns = [
     url(r'call/status/(?P<pk>\d+)/$', views.check_status),
 
     # Check the status of the call from Twilio.
-    url(r'call/callingstatus/(?P<pk>\d+)/$', views.get_twilio_call_status),
+    url(r'callingstatus/(?P<pk>\d+)/$', views.get_twilio_call_status),
 ]
 
