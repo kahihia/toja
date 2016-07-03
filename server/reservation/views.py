@@ -62,8 +62,8 @@ def xml_generate(pk):
     # How does the Japanese deal with the date formatting?
     month = dt.strftime('%m').lstrip('0')
     day = dt.strftime('%d').lstrip('0')
-    hour = dt.strftime('%d').lstrip('0')
-    minute = dt.strftime('%d').lstrip('0')
+    hour = dt.strftime('%H').lstrip('0')
+    minute = dt.strftime('%M').lstrip('0')
 
     date_res = dt.date()
     date_now = datetime.datetime.now().date()
