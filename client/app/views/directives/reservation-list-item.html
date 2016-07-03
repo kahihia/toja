@@ -3,8 +3,8 @@
   <md-icon>
     <i ng-if="reservation.status == callStatus.ON_CALLING || reservation.status == callStatus.READY" class="zmdi zmdi-hc-spin zmdi-refresh-sync"></i>
     <i style="color: green;" ng-if="reservation.status == callStatus.ACCEPTED" class="zmdi zmdi-check"></i>
-    <i ng-if="reservation.status == callStatus.DECLINED" class="zmdi zmdi-close"></i>
-    <i ng-if="reservation.status == callStatus.FAILED" class="zmdi zmdi-phone-missed"></i>
+    <i style="color: red;" ng-if="reservation.status == callStatus.DECLINED" class="zmdi zmdi-close"></i>
+    <i style="color: orange;" ng-if="reservation.status == callStatus.FAILED" class="zmdi zmdi-phone-missed"></i>
   </md-icon>
 
 </md-list-item>
