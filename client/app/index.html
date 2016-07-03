@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.css" />
+    <link rel="stylesheet" href="bower_components/angular-material-datetimepicker/css/material-datetimepicker.min.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/index.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="clientApp" ng-controller="ApplicationCtrl as appCtrl">
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <md-progress-linear ng-if="$root.isLoading" md-mode="indeterminate"></md-progress-linear>
+    <ng-include src="'views/partials/navbar.html'" include-replace></ng-include>
+    <!-- <ng-include src="'views/partials/sidenav.html'" include-replace></ng-include> -->
+
+    <div class="container">
+      <div ui-view></div>
+    </div>
+
+    <footer id="footer">
+      <md-content layout-padding>
+        <div class="container">
+          <p>Toja Team &copy; 2016</p>
+        </div>
+      </md-content>
+    </footer>
+
+    <script src='//maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCqa2WyglxhrqSM917VZb079zmFPDQNh50'></script>
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/swiper/dist/js/swiper.js"></script>
+    <script src="bower_components/angular-swiper/dist/angular-swiper.js"></script>
+    <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/markerclustererplus/src/markerclusterer.js"></script>
+    <script src="bower_components/google-maps-utility-library-v3-markerwithlabel/dist/markerwithlabel.js"></script>
+    <script src="bower_components/google-maps-utility-library-v3-infobox/dist/infobox.js"></script>
+    <script src="bower_components/google-maps-utility-library-v3-keydragzoom/dist/keydragzoom.js"></script>
+    <script src="bower_components/js-rich-marker/src/richmarker.js"></script>
+    <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+    <script src="bower_components/momentjs/moment.js"></script>
+    <script src="bower_components/angular-material-datetimepicker/js/angular-material-datetimepicker.min.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/angular-inview/angular-inview.js"></script>
+    <script src="bower_components/angularjs-geolocation/src/geolocation.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/directives/listing-item.js"></script>
+        <script src="scripts/controllers/place-detail.js"></script>
+        <script src="scripts/controllers/application.js"></script>
+        <script src="scripts/controllers/restaurant-detail.js"></script>
+        <script src="scripts/controllers/reserve.js"></script>
+        <script src="scripts/directives/call-uber.js"></script>
+        <script src="scripts/services/venue.js"></script>
+        <script src="scripts/filters/strip-tags.js"></script>
+        <script src="scripts/filters/price-range.js"></script>
+        <script src="scripts/filters/to-usd.js"></script>
+        <script src="scripts/services/uber.js"></script>
+        <script src="scripts/services/attraction.js"></script>
+        <script src="scripts/filters/listing-search.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

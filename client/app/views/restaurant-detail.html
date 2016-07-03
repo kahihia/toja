@@ -1,0 +1,68 @@
+<md-content id="listing-detail">
+  <ks-swiper-container ng-if="ctrl.venue.images.length > 0" loop="false" slides-per-view="1" space-between="5" pagination-clickable="false">
+      <ks-swiper-slide class="swiper-slide" ng-repeat="url in ctrl.venue.images track by $index">
+        <div class="photo-slide" style="background-image: url('{{ url }}')">
+        </div>
+      </ks-swiper-slide>
+  </ks-swiper-container>
+
+  <md-content layout-padding>
+    <div layout="row">
+      <h1 flex class="md-title">{{ ctrl.venue.name }}</h1>
+      <p><b>${{ ctrl.venue.budget | toUsd }}</b></p>
+    </div>
+
+    <p>
+      {{ ctrl.venue.description | stripTags }}
+    </p>
+
+    <div layout="row" layout-align="center center">
+      <md-button class="md-primary md-raised" ui-sref="reserve({id: ctrl.venue.id})">Reserve</md-button>
+      <call-uber place="ctrl.venue"></call-uber>
+    </div>
+
+    <ui-gmap-google-map
+      ng-if="ctrl.venue.latitude && ctrl.venue.longitude"
+      center="{
+        latitude: ctrl.venue.latitude,
+        longitude: ctrl.venue.longitude
+      }"
+      zoom="ctrl.map.zoom">
+      <ui-gmap-marker coords="{
+        latitude: ctrl.venue.latitude,
+        longitude: ctrl.venue.longitude,
+      }" idKey="0">
+        </ui-gmap-marker>
+    </ui-gmap-google-map>
+  </md-content>
+
+  <md-content class="near-by" layout-padding ng-if="ctrl.nearByVenues.length > 0">
+    <h2 class="md-title">Near by Restaurants</h2>
+
+    <md-card ng-if="venue.id != ctrl.venue.id" ng-repeat="venue in ctrl.nearByVenues" ui-sref="restaurant-detail({
+      id: venue.id
+    })">
+      <md-card-title>
+        <md-card-title-media>
+          <div class="md-media-md card-media" style="background-image: url('{{ venue.images[0] }}')">
+          </div>
+        </md-card-title-media>
+        <md-card-title-text>
+          <div class="item-info">
+            <span class="md-title">{{ venue.name }}</span>
+            <span class="md-subhead">{{ venue.description | stripTags | limitTo:100 }}...</span>
+          </div>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button class="md-icon-button" aria-label="Favorite">
+          <i class="zmdi zmdi-star-outline zmdi-hc-2x"></i>
+        </md-button>
+        <md-button
+          class="md-raised md-primary reserve-btn">
+          View
+        </md-button>
+      </md-card-actions>
+    </md-card>
+  </md-content>
+</md-content>

@@ -1,0 +1,7 @@
+<md-sidenav md-is-open="$root.isSideNavOpened" md-component-id="left" class="md-sidenav-left">
+  <md-list>
+    <md-list-item ng-click="$root.logout()" ng-if="!$root.currentUser">
+      <translate>Logout</translate>
+    </md-list-item>
+  </md-list>
+</md-sidenav>

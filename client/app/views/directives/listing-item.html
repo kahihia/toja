@@ -1,0 +1,20 @@
+<md-card>
+  <img ng-src="{{ item.images[0] }}" class="md-card-image" alt="Washed Out">
+  <md-card-content>
+    <div layout="row">
+      <div class="item-info" flex>
+        <h3 class="md-title item-title">{{ item.name }}</h3>
+        <p class="item-subtitle md-body-1">
+          <span ng-if="item.budget">
+            <span class="md-body-2">${{ item.budget | toUsd }}</span><br>
+          </span>
+          {{ item.description | stripTags }}
+        </p>
+      </div>
+      <md-button ng-click="fave($event)" class="md-icon-button" aria-label="Favorite">
+        <i ng-if="!$localStorage.faves[type + 's'][item.id]" class="zmdi zmdi-star-outline zmdi-hc-2x"></i>
+        <i ng-if="$localStorage.faves[type + 's'][item.id]" class="zmdi zmdi-star zmdi-hc-2x"></i>
+      </md-button>
+    </div>
+  </md-card-content>
+</md-card>

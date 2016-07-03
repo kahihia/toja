@@ -1,0 +1,51 @@
+<md-content id="main">
+  <md-tabs md-dynamic-height md-border-bottom md-selected="ctrl.selectedTabIndex">
+    <md-tab label="Attractions">
+      <md-content class="md-padding">
+        <listing-item item="item" type="'attraction'" ui-sref="place-detail({
+          id: item.id
+        })" ng-repeat="item in filteredAttractions = (ctrl.attractions | listingSearch:$root.searchText | limitTo:ctrl.attractionLimit)"></listing-item>
+
+        <p ng-if="ctrl.selectedTabIndex == 0 && filteredAttractions.length == 0">No attractions found.</p>
+
+        <div ng-if="filteredAttractions.length > 0" in-view="ctrl.loadMore('attraction')"></div>
+      </md-content>
+    </md-tab>
+    <md-tab label="Foods">
+      <md-content class="md-padding">
+        <section layout="row" layout-align="center center">
+          <md-button
+            class="groupX left md-raised"
+            ng-class="{
+            'md-primary': ctrl.foodTab.show == 'all'
+            }"
+            ng-click="ctrl.foodTab.show='all'">
+            All
+          </md-button>
+          <md-button
+            class="groupX right md-raised"
+            ng-click="ctrl.foodTab.show='nearby'"
+            ng-class="{
+            'md-primary': ctrl.foodTab.show == 'nearby'
+            }">
+            Near by
+          </md-button>
+        </section>
+
+        <md-select aria-label="Price range" ng-model="ctrl.foodTab.priceRange" ng-if="!(filteredVenues.length == 0 && ctrl.selectedTabIndex == 0)">
+          <md-option ng-repeat="option in ctrl.foodTab.priceRangeOptions" ng-value="option">
+            {{ option.label }}
+          </md-option>
+        </md-select>
+
+        <listing-item item="item" type="'venue'" ui-sref="restaurant-detail({
+          id: item.id
+        })" ng-repeat="item in filteredVenues = (ctrl.venues | listingSearch:$root.searchText | priceRange:ctrl.foodTab.priceRange | limitTo:ctrl.venueLimit)"></listing-item>
+
+        <p ng-if="filteredVenues.length == 0">No venues found.</p>
+
+        <div ng-if="ctrl.selectedTabIndex == 1 && filteredVenues.length > 0" in-view="ctrl.loadMore('venue')"></div>
+      </md-content>
+    </md-tab>
+  </md-tabs>
+</md-content>
