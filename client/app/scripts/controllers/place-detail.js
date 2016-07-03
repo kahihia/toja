@@ -23,8 +23,12 @@ angular.module('clientApp')
   });
 
 })
-.controller('PlaceDetailCtrl', function (attraction) {
+.controller('PlaceDetailCtrl', function ($rootScope, attraction) {
   this.map = { zoom: 15 };
 
   this.attraction = attraction;
+
+  this.venue.$promise.then(function() {
+    $rootScope.navTitle = attraction.name;
+  });
 });

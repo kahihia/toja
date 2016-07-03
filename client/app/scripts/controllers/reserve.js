@@ -23,8 +23,44 @@ angular.module('clientApp')
   });
 
 })
-.controller('ReserveCtrl', function ($window, venue) {
+.controller('ReserveCtrl', function (
+  $rootScope, $window, $stateParams, $localStorage, $state, Reservation, venue
+) {
+  var self = this;
+
+  $rootScope.navTitle = 'Make reservation';
+
   this.minDate = $window.moment();
 
+  this.reservationDate = null;
+  this.reservationTime = null;
+
+  this.reservation = {
+    name: '',
+    npeople: 2,
+    datetime: null,
+    resid: $stateParams.id,
+    cusphone: '',
+    lang: 'ja'
+  };
+
   this.venue = venue;
+
+  this.reserve = function() {
+    this.reservationDate.setHours(this.reservationTime.getHours());
+    this.reservationDate.setMinutes(this.reservationTime.getMinutes());
+    this.reservation.datetime = this.reservationDate.getTime() / 1000;
+
+    console.debug('Making reservation for venue', this.venue);
+    this.venue.$reserve(this.reservation).then(function(data) {
+      console.debug('Reservation has been made', data);
+      var call = data;
+      call.venueId = self.venue.id;
+
+      Reservation.save(call);
+      $state.go('reservations');
+    }).catch(function(error) {
+      console.debug('Cannot make the reservation', error);
+    });
+  };
 });

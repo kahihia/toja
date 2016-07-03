@@ -1,0 +1,7 @@
+<md-content id="reservations">
+  <md-list>
+    <reservation-list-item ui-sref="restaurant-detail({
+      id: item.venueId
+    })" reservation="item" ng-repeat="item in ctrl.reservations"></reservation-list-item>
+  </md-list>
+</md-content>
