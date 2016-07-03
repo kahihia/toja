@@ -45,6 +45,7 @@ module.exports = function(config) {
       'bower_components/angular-material-datetimepicker/js/angular-material-datetimepicker.min.js',
       'bower_components/moment/moment.js',
       'bower_components/ngstorage/ngStorage.js',
+      'bower_components/angular-inview/angular-inview.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

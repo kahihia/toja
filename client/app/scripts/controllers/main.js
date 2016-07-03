@@ -60,4 +60,13 @@ angular.module('clientApp')
 
   this.venueLimit = 5;
   this.attractionLimit = 5;
+
+  this.loadMore = function(type) {
+    console.debug('Loading more %s ...', type);
+    if (type === 'attraction') {
+      this.attractionLimit += 5;
+    } else if (type === 'venue') {
+      this.venueLimit += 5;
+    }
+  };
 });

@@ -1,12 +1,14 @@
 <md-content id="main">
-  <md-tabs md-dynamic-height md-border-bottom>
+  <md-tabs md-dynamic-height md-border-bottom md-selected="ctrl.selectedTabIndex">
     <md-tab label="Places to visit">
       <md-content class="md-padding">
         <listing-item item="item" type="'attraction'" ui-sref="place-detail({
           id: item.id
         })" ng-repeat="item in filteredAttractions = (ctrl.attractions | listingSearch:$root.searchText | limitTo:ctrl.attractionLimit)"></listing-item>
 
-        <p ng-if="filteredAttractions.length == 0">No attractions found.</p>
+        <p ng-if="ctrl.selectedTabIndex == 0 && filteredAttractions.length == 0">No attractions found.</p>
+
+        <div ng-if="filteredAttractions.length > 0" in-view="ctrl.loadMore('attraction')"></div>
       </md-content>
     </md-tab>
     <md-tab label="Foods">
@@ -22,6 +24,8 @@
         })" ng-repeat="item in filteredVenues = (ctrl.venues | listingSearch:$root.searchText | priceRange:ctrl.foodTab.priceRange | limitTo:ctrl.venueLimit)"></listing-item>
 
         <p ng-if="filteredVenues.length == 0">No venues found.</p>
+
+        <div ng-if="ctrl.selectedTabIndex == 1 && filteredVenues.length > 0" in-view="ctrl.loadMore('venue')"></div>
       </md-content>
     </md-tab>
   </md-tabs>

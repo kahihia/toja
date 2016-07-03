@@ -24,7 +24,8 @@ angular
   'ksSwiper',
   'uiGmapgoogle-maps',
   'ngMaterialDatePicker',
-  'ngStorage'
+  'ngStorage',
+  'angular-inview'
 ])
 .constant('API_END_POINT', 'http://10.201.120.132:8000')
 
