@@ -9,6 +9,8 @@ from twilio.rest import TwilioRestClient
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from rest_framework import generics
+
 from server.requests import JSONResponse
 
 from models import Call
@@ -225,21 +227,9 @@ def twilio_call(request):
     # return HttpResponse("We are making the reservation call for you.")
 
 
-@csrf_exempt
-def call_detail(request, pk):
-
-    if request.method != 'GET':
-        print(request.method)
-        return HttpResponse(status=403)
-
-    try:
-        call = Call.objects.get(pk=pk)
-    except Call.DoesNotExist:
-        return HttpResponse(status=404)
-
-    serializer = CallSerializer(call)
-    response = JSONResponse(serializer.data)
-    return response
+class CallDetail(generics.RetrieveAPIView):
+    queryset = Call.objects.all()
+    serializer_class = CallSerializer
 
 
 @csrf_exempt

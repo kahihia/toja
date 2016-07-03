@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'call/$', views.twilio_call),
 
     # Detail view of call.
-    url(r'call/(?P<pk>\d+)/$', views.call_detail),
+    url(r'call/(?P<pk>\d+)/$', views.CallDetail.as_view()),
 
     # Check status of reservation/call.
     url(r'call/status/(?P<pk>\d+)/$', views.check_status),
