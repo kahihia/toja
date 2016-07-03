@@ -1,5 +1,6 @@
 # coding=utf-8
 
+import time
 import pytz
 import datetime
 
@@ -55,6 +56,8 @@ def xml_generate(pk):
     url = 'http://tjr.tonny.me/gather/' + str(pk) + '/'
     num_people = call_info.num_people
     dt = call_info.date_time
+    dt = datetime.datetime.fromtimestamp(time.mktime(dt.timetuple()))
+
     name = call_info.name
     language = call_info.language_opt
 
