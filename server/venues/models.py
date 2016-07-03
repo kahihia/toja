@@ -5,6 +5,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=100, blank=True, default='')
+    image = models.TextField(default='')
 
 
 class Venue(models.Model):
@@ -23,3 +24,11 @@ class Venue(models.Model):
 
     class Meta:
         ordering = ('gurunavi_id', )
+
+
+class Food(models.Model):
+    name = models.CharField(max_length=100, blank=True, default='')
+    name_jp = models.CharField(max_length=100, blank=True, default='')
+    description = models.TextField(default='')
+    image = models.TextField(default='')
+    venue = models.ForeignKey(Venue)

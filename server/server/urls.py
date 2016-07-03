@@ -45,7 +45,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class CallSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Call
-        fields = ('name', 'num_people', 'date', 'time', 'res_num', 'language_opt', 'status' )
+        fields = ('name', 'num_people', 'date_time', 'res_name', 'res_phone', 'cus_phone', 'status')
 
 
 # ViewSets define the view behavior.

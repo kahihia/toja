@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import Venue, Category
+from models import Venue, Category, Food
 
 
 class VenueSerializer(serializers.ModelSerializer):
@@ -12,4 +12,10 @@ class VenueSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'image')
+
+
+class FoodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Food
+        fields = ('id', 'name', 'name_jp', 'description', 'image', 'venue')

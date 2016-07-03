@@ -6,10 +6,10 @@ from django.db import models
 class Call(models.Model):
     name = models.CharField(max_length=100, blank=True, default='')
     num_people = models.CharField(max_length=3, blank=False, default='')
-    datetime = models.DateTimeField()
-    date = models.CharField(max_length=100, blank=True, default='')
-    time = models.CharField(max_length=100, blank=True, default='')
-    res_num = models.CharField(max_length=100, blank=False, default='')
+    date_time = models.DateTimeField()
+    res_phone = models.CharField(max_length=15, blank=False, default='')
+    cus_phone = models.CharField(max_length=15, blank=False, default='')
+    res_name = models.CharField(max_length=100, blank=True, default='')
 
     READY = 911
     ON_CALLING = 5
