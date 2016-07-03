@@ -82,3 +82,13 @@ def hospital_nearest(request, lat, lon):
     return HttpResponse(status=403)
 
 
+@csrf_exempt
+def attractions_nearby(request, lat, lon):
+
+    venues = Attraction.objects.all()
+    venues = [v for v in venues if haversine(float(lon), float(lat), float(v.longitude), float(v.latitude)) < 1]
+
+    serializer = AttractionSerializer(venues, many=True)
+    response = JSONResponse(serializer.data)
+
+    return response
