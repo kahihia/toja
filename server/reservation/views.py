@@ -112,16 +112,16 @@ def xml_generate(pk):
             num_people_text = str(num_people) + ' people'
 
         month_text = dt.strftime("%B")
-        if day == '1':
+        if day == '1' or day == '21':
             day = day + 'st'
-        elif day == '2':
+        elif day == '2' or day == '22':
             day = day + 'nd'
-        elif day == '3':
+        elif day == '3' or day == '23':
             day = day + 'rd'
         else:
             day = day + 'th'
 
-        message_datetime = month_text + day + ' at ' + hour + ' o\'clock and ' + minute + ' minutes '
+        message_datetime = month_text + ' ' + day + ' at ' + hour + ' o\'clock and ' + minute + ' minutes '
         # Check if today or tomorrow or other date
         if date_res == date_now:
             message_datetime == 'today' + message_datetime
