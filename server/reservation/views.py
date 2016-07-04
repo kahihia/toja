@@ -1,5 +1,6 @@
 # coding=utf-8
 
+import time
 import pytz
 import datetime
 
@@ -17,6 +18,7 @@ from models import Call
 from venues.models import Venue
 from serializers import CallSerializer
 
+from server import secrets
 
 DECLINE_XML = ['<?xml version="1.0" encoding="UTF-8"?> '
                '<Response>'
@@ -25,7 +27,8 @@ DECLINE_XML = ['<?xml version="1.0" encoding="UTF-8"?> '
 
                '<?xml version="1.0" encoding="UTF-8"?> '
                '<Response>'
-               u'<Say language="ja-JP"> わかりました。どうもありがとうございます。また、りようさせていただきます。</Say>'
+               u'<Say language="ja-JP"> 了解いたしました。ご確認ありがとうございます。また、予約がございましたら、'
+               u'もう一度ご連絡させていただきます。</Say>'
                '</Response>'
                ]
 
@@ -50,9 +53,12 @@ class XMLResponse(HttpResponse):
 def xml_generate(pk):
 
     call_info = Call.objects.get(pk=pk)
-    url = 'http://47.88.212.198:8000/gather/' + str(pk) + '/'
+    url = 'http://tjr.tonny.me/gather/' + str(pk) + '/'
     num_people = call_info.num_people
     dt = call_info.date_time
+    tz = pytz.timezone('Asia/Tokyo')
+    dt = datetime.datetime.fromtimestamp(time.mktime(dt.timetuple()),tz=tz)
+
     name = call_info.name
     language = call_info.language_opt
 
@@ -60,13 +66,14 @@ def xml_generate(pk):
     # How does the Japanese deal with the date formatting?
     month = dt.strftime('%m').lstrip('0')
     day = dt.strftime('%d').lstrip('0')
-    hour = dt.strftime('%d').lstrip('0')
-    minute = dt.strftime('%d').lstrip('0')
+    hour = dt.strftime('%H').lstrip('0')
+    minute = dt.strftime('%M').lstrip('0')
 
     date_res = dt.date()
     date_now = datetime.datetime.now().date()
 
     cus_phone = call_info.cus_phone
+    cus_phone = ". ".join(cus_phone)
 
     if language == Call.JAPANESE:
         if num_people == 1:
@@ -87,7 +94,8 @@ def xml_generate(pk):
               '<Response> ' \
               '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="{0}"> ' \
               u'<Say language="ja-JP"> 私は、自動予約ロボットの、トージャです。今回は、{1}さんのかわりに予約しています。' \
-              u'{1}さんは、{2}から、 {3}の予約をしたいです。ご連絡電話番号は{4}です。' \
+              u'{1}さんは、{2}から、 {3}の予約をしたいです。連絡電話番号は. {4}です。' \
+              u'繰り返します。連絡電話番号は{4}です。' \
               u'予約可能な場合は、１をおしてください。' \
               u'予約出来ない場合は、２をおしてください。' \
               u'、もう一度、聞き直す場合は、５を、おしてください' \
@@ -113,7 +121,7 @@ def xml_generate(pk):
         else:
             day = day + 'th'
 
-        message_datetime = month_text + day + 'at' + hour + ':' + minute
+        message_datetime = month_text + day + ' at ' + hour + ' o\'clock and ' + minute + ' minutes '
         # Check if today or tomorrow or other date
         if date_res == date_now:
             message_datetime == 'today' + message_datetime
@@ -138,15 +146,15 @@ def xml_generate(pk):
 
 def xml_generate_sorry(pk):
     call_info = Call.objects.get(pk=pk)
-    url = 'http://47.88.212.198:8000/gather/' + str(pk) + '/'
+    url = 'http://tjr.tonny.me/gather/' + str(pk) + '/'
 
     if call_info.language_opt == Call.JAPANESE:
         xml = '<Response> ' \
               '<Gather timeout="20" finishOnKey="" numDigits="1" method="GET" action="{0}">' \
-              u'<Say language="ja-JP"> あなたは間違った番号を選びました！もう一度お選びください。 ' \
+              u'<Say language="ja-JP"> もう一度正しい番号をお選びください！ ' \
               u'よやくかのうなばあいは、１をおしてください。' \
               u'よやくできないばあいは、２をおしてください。' \
-              u'もういちど、ききなおすばあいは、５をおしてください' \
+              u'もういちど、ききなおしたいばあいは、５をおしてください' \
               '</Say> ' \
               '</Gather> ' \
               u'<Say>我々は、任意の入力を受信しませんでした。 さようなら！ </Say> ' \
@@ -168,7 +176,7 @@ def xml_generate_sorry(pk):
 @csrf_exempt
 def reservation(request, pk):
     xml = xml_generate(pk=pk)
-    if request.method == "GET":
+    if request.method == "POST":
         call_info = Call.objects.get(pk=pk)
         call_info.status = Call.ON_CALLING
         call_info.save()
@@ -205,8 +213,8 @@ def twilio_call(request):
 #        return HttpResponse(status=400)
 
 
-    account_sid = "AC9fd29fc278859337de38574c25843043"  # Your Account SID from www.twilio.com/console
-    auth_token = "22388542078a89a05e264409a2ef0055"  # Your Auth Token from www.twilio.com/console
+    account_sid = secrets.TWILIO_ACCOUNT_SID  # Your Account SID from www.twilio.com/console
+    auth_token = secrets.TWILIO_ACCOUNT_SECRET  # Your Auth Token from www.twilio.com/console
 
     required = ['name', 'npeople', 'datetime', 'resid', 'cusphone', 'lang']
     for req in required:
@@ -227,7 +235,7 @@ def twilio_call(request):
 
     shop_info = Venue.objects.get(pk = shopid)
     #res_phone = shop_info.phone
-    res_phone = "+819071931989"
+    res_phone = secrets.TEST_PHONE
     res_name = shop_info.name
 
     call_info = Call()
@@ -244,11 +252,14 @@ def twilio_call(request):
     pk = call_info.pk
 
     # Make request to Twilio.
-    url = "http://47.88.212.198:8000/reservation/" + str(pk) + '/'
+    url = "http://tjr.tonny.me/reservation/" + str(pk) + '/'
     client = TwilioRestClient(account_sid, auth_token)
 
     try:
-        call = client.calls.create(url=url, to=res_phone, from_="+81345304650")
+        call = client.calls.create(url=url, to=res_phone, from_=secrets.TWILIO_PHONE,
+                                   status_callback="http://tjr.tonny.me/callingstatus/" + str(pk) + '/',
+                                   status_callback_method="POST",
+                                   )
     except TwilioRestException as e:
         print(e)
 
@@ -275,3 +286,19 @@ def check_status(request, pk):
 
     status = {call.status: Call.STATUS_CHOICES[call.status]}
     return JSONResponse(status)
+
+@csrf_exempt
+def get_twilio_call_status(request, pk):
+    call_info = Call.objects.get(pk=pk)
+    status = request.POST.get('CallStatus')
+    if status == 'completed' and call_info.status == Call.ON_CALLING:
+        call_info.status = Call.FAILED
+    elif status in ['busy', 'failed', 'no-answer', 'canceled']:
+        call_info.status = Call.FAILED
+    elif status in ['ringing', 'in-progress']:
+        call_info.status = Call.ON_CALLING
+    elif status == 'queued':
+        call_info.status = Call.READY
+    call_info.save()
+    serializer = CallSerializer(call_info)
+    return JSONResponse(serializer.data)
