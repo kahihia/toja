@@ -28,7 +28,7 @@ angular.module('clientApp')
 
   this.attraction = attraction;
 
-  this.venue.$promise.then(function() {
+  this.attraction.$promise.then(function() {
     $rootScope.navTitle = attraction.name;
   });
 });
