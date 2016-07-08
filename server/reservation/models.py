@@ -34,7 +34,7 @@ class Call(models.Model):
 
     LANGUAGE_CHOICE = (
         (ENGLISH, 'English'),
-        (JAPANESE, 'Japanse')
+        (JAPANESE, 'Japanese')
     )
 
     status = models.IntegerField(
